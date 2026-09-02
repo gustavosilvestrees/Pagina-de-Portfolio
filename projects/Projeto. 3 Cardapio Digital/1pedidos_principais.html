@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="icones/fontawesome/css/all.css" rel="stylesheet">
+    <link rel="shortcut icon" href="icones/favicons/pizza1.png" type="image/x-icon">
+    <title>Página de Pedidos</title>
+</head>
+
+<body>
+    <header class="superior"> <!-- Banner Principal -->
+        <div class="esquerda">
+            <div class="logo"></div>
+            <p class="nome-restaurante-header">Trattoria Pizzaria </p>
+            <div class="pesquisa">
+                <input type="text" placeholder="Pesquisar...">
+            </div>
+            <div class="compartilhar"><i class="fa-solid fa-square-share-nodes"></i></div>
+        </div>
+    </header>
+
+    <main class="principal">
+
+        <div class="banner-com-navegacao"> <!-- Titulo da Loja -->
+            <div id="bannerTratoria"></div>
+            <!-- <img src="banner_lojaF3.png" alt="Banner da Loja" class="banner-img"> -->
+            <nav class="navegacao-overlay">
+                <div class="simbolo"><img id="favPizza" src="icones/favicons/pizza2.png" alt=""></div>
+                <div class="nome">Trattoria Pizzaria</div>
+                <div class="estrelas">⭐⭐⭐⭐⭐ <strong>4.8/5 </strong></div>
+            </nav>
+        </div>
+            
+
+        <section class="cardapio"> <!-- Cardapio -->
+
+            <div class="card-pizzas" id="pizza-1" data-id-pizza="1" onclick="adicionarAoCarrinho(1)">
+
+                <div class="imagem"><img class="miniImg" src="cardapio/1calabresa.png" alt="Pizza de Calabresa"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza de Calabresa<br>
+                        <strong class="pizza-preco">R$31,90</strong>
+                    </p>
+                    <div class="pizza-info">Um clássico irresistível com rodelas de calabresa e cebola. Sabor que agrada
+                        a todos!</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-2" data-id-pizza="2" onclick="adicionarAoCarrinho(2)"> <!-- O numero dentro dos parenteses significa o numero do id que a função vai passar como parametro-->
+                <div class="imagem"><img class="miniImg" src="cardapio/2mussarela.png" alt="Pizza de Mussarela"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza de Mussarela<br>
+                        <strong class="pizza-preco">R$31,90</strong>
+                    </p>
+                    <div class="pizza-info">A simplicidade que encanta: queijo mussarela derretido e um toque de
+                        orégano. Pura cremosidade!</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-3" data-id-pizza="3" onclick="adicionarAoCarrinho(3)">
+                <div class="imagem"><img class="miniImg" src="cardapio/3siciliana.png" alt="Pizza Siciliana"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza Siciliana<br>
+                        <strong class="pizza-preco">R$35,90</strong>
+                    </p>
+                    <div class="pizza-info">Uma explosão de sabores com champignon, bacon crocante e mussarela.
+                        Experimente essa delícia!</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-4" data-id-pizza="4" onclick="adicionarAoCarrinho(4)">
+                <div class="imagem"><img class="miniImg" src="cardapio/4escarola.png" alt="Pizza de Escarola"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza de Escarola<br>
+                        <strong class="pizza-preco">R$34,90</strong>
+                    </p>
+                    <div class="pizza-info">Leve e saborosa, com escarola refogada e um toque de alho. Uma opção fresca
+                        e deliciosa.</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-5" data-id-pizza="5" onclick="adicionarAoCarrinho(5)">
+                <div class="imagem"><img class="miniImg" src="cardapio/5quatro_queijos.png" alt="Pizza 4 Queijos"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza 4 Queijos<br>
+                        <strong class="pizza-preco">R$39,90</strong>
+                    </p>
+                    <div class="pizza-info">A perfeita combinação de quatro queijos especiais. Cremosa e irresistível a
+                        cada mordida.</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-6" data-id-pizza="6" onclick="adicionarAoCarrinho(6)">
+                <div class="imagem"><img class="miniImg" src="cardapio/6baiana.png" alt="Pizza Baiana"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza Baiana<br>
+                        <strong class="pizza-preco">R$35,90</strong>
+                    </p>
+                    <div class="pizza-info">Para quem ama um toque de pimenta! Calabresa moída, ovos e muito sabor, tudo
+                        bem picante.</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-7" data-id-pizza="7" onclick="adicionarAoCarrinho(7)">
+                <div class="imagem"><img class="miniImg" src="cardapio/7bacon_e_mussarela.png"
+                        alt="Pizza Bacon e Mussarela"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza de Bacon e Mussarela<br>
+                        <strong class="pizza-preco">R$31,90</strong>
+                    </p>
+                    <div class="pizza-info">A combinação perfeita de bacon crocante e a cremosidade da mussarela. Sabor
+                        que vicia!</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-8" data-id-pizza="8" onclick="adicionarAoCarrinho(8)">
+                <div class="imagem"><img class="miniImg" src="cardapio/8toscana.png" alt="Pizza Toscana"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza Toscana<br>
+                        <strong class="pizza-preco">R$35,90</strong>
+                    </p>
+                    <div class="pizza-info">Muita calabresa moída e queijo mussarela derretido. Simples e direto ao
+                        ponto.</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-9" data-id-pizza="9" onclick="adicionarAoCarrinho(9)">
+                <div class="imagem"><img class="miniImg" src="cardapio/9portuguesa.png" alt="Pizza Portuguesa"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza Portuguesa<br>
+                        <strong class="pizza-preco">R$41,90</strong>
+                    </p>
+                    <div class="pizza-info">Um festival de sabores com presunto, ovos, cebola, azeitonas e mussarela. O
+                        clássico que nunca falha.</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-10" data-id-pizza="10" onclick="adicionarAoCarrinho(10)">
+                <div class="imagem"><img class="miniImg" src="cardapio/10bigmac.png" alt="Pizza Big Mac"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza Big Mac<br>
+                        <strong class="pizza-preco">R$45,90</strong>
+                    </p>
+                    <div class="pizza-info">Experimente a lenda em forma de pizza! Carne, molho especial e queijo, uma
+                        experiência única.</div>
+                </div>
+            </div>
+
+            <div class="card-pizzas" id="pizza-11" data-id-pizza="11" onclick="adicionarAoCarrinho(11)">
+                <div class="imagem"><img class="miniImg" src="cardapio/11pepperoni.png" alt="Pizza de Pepperoni"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza de Pepperoni<br>
+                        <strong class="pizza-preco">R$45,90</strong>
+                    </p>
+                    <div class="pizza-info">O sabor marcante do pepperoni com queijo mussarela. Deliciosa e com um toque
+                        picante na medida certa.</div>
+                </div>
+            </div>
+            <div class="card-pizzas" id="pizza-12" data-id-pizza="12" onclick="adicionarAoCarrinho(12)">
+                <div class="imagem"><img class="miniImg" src="cardapio/12frango_catupiry.png"
+                        alt="Pizza de Frango com Catupiry"></div>
+                <div class="pizza-dados">
+                    <p class="pizza-nome">Pizza de Frango com Catupiry<br>
+                        <strong class="pizza-preco">R$39,90</strong>
+                    </p>
+                    <div class="pizza-info">Cremosa combinação de frango desfiado com o autêntico Catupiry. Um dos
+                        sabores mais amados!</div>
+                </div>
+            </div>
+          </section>
+        </section>
+    </main>
+
+
+
+    <footer class="inferior"> <!-- Botoes Inferiores -->
+        <a href="1pedidos_principais.html">
+            <div class="alinhamentoDiv">
+                <button class="botao">Início</button>
+                <div class="iconesInferior"><i class="fa-solid fa-house"></i></div>
+            </div>
+        </a>
+
+        <a href="2pedidos.html">
+        <div class="alinhamentoDiv">
+        <button class="botao">Pedidos</button>
+        <div class="iconesInferior"><i class="fa-regular fa-note-sticky"></i></div>
+        </div>
+        </a>
+
+        <a href="3carrinho.html">
+            <div class="alinhamentoDiv">
+                <button class="botao"> Carrinho</button>
+                <div class="iconesInferior"><i class="fa-solid fa-cart-shopping"></i></div>
+            </div>
+        </a>
+    </footer>
+
+    <section id="idModal">
+        <div class="janelaModal" id="janelaModal"> <!-- Deixa fundo do site escuro -->
+        <div class="modal"> <!-- A janela e o conteudo -->
+            <div id="tituloModal">
+                <button class="close" id="close">X</button>
+                    <h1>Titulo da Pizza</h1>
+                </div>
+
+                <div id="descrioModal">
+                    <div id="imgModal1"><img id="imgModal2" src="cardapio/10bigmac.png" alt=""></div>
+
+                    <p id="descrioModal">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Corporis, voluptate similique deserunt nam ut adipisci ipsam hic neque ea voluptas dolores placeat sunt doloremque. Cumque nam accusamus odit minus ullam.</p>
+
+                    <p id="pPreco">21,90</p>
+
+                    <input type="text" name="Observação" id="observação" placeholder="Descrição">
+                </div>
+                <div id="barracinza"></div>
+                
+                <div id="quantidadeModal">
+                    <div id="AlinhamentoModalInf">
+                        <button class="btn-quantidade2">+</button>
+                        <div class="quantidadeInput">1</div>
+                        <button class="btn-quantidade2">-</button>
+                    </div>
+                    <button class="btn-finalizar2">Adicionar</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js" defer></script>
+    <script src="pizzas.js" defer></script>
+</body>
+
+</html>
+
+<!-- 
+    DIA 01
+    Tarefas:
+      1. Estilizar os botões inferiores do site ✅
+      2. Estilizar as divs do cardapio ✅
+      3. Deixar as divs responsivas e colocar uma em cima da outra ✅
+      4. Converter as imagens das pizzas para 500px e add imagens ✅
+      5. Alinhar main do site ✅
+      
+    DIA 02
+    Tarefas:
+      1. Add descrição nas pizzas ✅
+      2. Criar banner com imagem de fundo e as informações do restaurante a frente ✅
+      3. Alinhar Icones do header e deixar responsivo ✅
+      4. Add favicon ✅
+
+
+    DIA 03
+    Tarefas:
+      1. Alinhar Icones do header e deixar responsivo ✅
+      2. Fazer imagem se ajustar ao tamanho da pagina ✅
+      3. Personalizar barra de rolagem ✅
+      4. Montar estrutura pagina com os pedidos ✅
+      5. Montar pagina de pedidos ✅
+    
+
+    DIA 04:
+    Tarefas:
+      1. Criar links para navegar entre as paginas ✅
+      2. Montar logica do javascript para mostrar items na pagina de pedidos ✅
+      3. Ver logica para assim que o pedido for aceito for gerado um numero de pedido estilo PIZZALETO ✅
+      4. Pedir para IA criar um sistema de links que vao navegar pelos titulos que irei criar com <h1> para facilitar a navegaçao ✅
+      5. Criar logica javascript para guardar cada item em uma variavel TO DO LIST ✅
+      6. Add preço nas pizzas estilizado ✅
+
+
+    DIA 05:
+    Tarefas:
+      1. Banner responsivo da pagina ✅
+
+
+      LOGICA DO CARRINHO:
+      Cada pizza escolhida vai ter um valor Numerico que vai sendo armazenado num array que vai somando todo valor adicionado ou retirado
+
+      Cada preço vai para uma variavel
+
+      
+
+   DIA 06:
+        1. Garantir que o Criar Pedido e Deletar Pedido add e deletem tanto do html quanto do local storage ✅
+        2. Add Janela Modal ✅
+        3. Add funcionalidade de add e sub nos botoes da pag 3 carrinho✅
+
+    DIA 07:
+    
+    1. Reformular a arquitetura da pagina add ID nas pizzas ✅
+    2. Criar arquivo a parte para ser banco de dados de pizzas ✅
+    3. fazer pag buscar os produtos desejados e exibir no carrinho ✅
+    4. add funcionalidade de excluir os intens do carrinho ✅
+    5. add funcionalidade de add e sub os preços do carrinho ✅
+
+        DIA 08:
+
+    1. Corrigir funcionalidades de sacola ✅
+
+    DIA 09:
+
+    1. Colocar dados na janela modal 
+    2. Reformular a arquitetura da pagina add ID nas pizzas ✅
+
+      
+ -->

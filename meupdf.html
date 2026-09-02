@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icones/microchip2.ico" type="image/x-icon">
+    <title>Visualizador de Currículo - Gustavo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link href="icones/fontawesome/css/all.css" rel="stylesheet">
+    <style>
+        /* Ajuste do Corpo da página para permitir rolagem natural */
+        body {
+            height: auto !important;
+            min-height: 100vh;
+            background-color: #121212 !important; /* Preto Claro */
+            overflow-y: auto !important;
+        }
+
+        .pdf-title{
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.635), 0px 0px 5px rgba(0, 0, 0, 0.256);
+        }
+
+        /* Container do Vídeo de Fundo Fixo */
+        .video-bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Deixa a seção transparente para revelar o vídeo */
+        .pdf-viewer-section {
+            background-color: transparent !important;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* =========================================
+           AJUSTES DO CONTAINER E IFRAME DO PDF
+           ========================================= */
+        .cyber-frame-container {
+            width: 100%;
+            height: 1265px !important; /* Altura suficiente para expandir o PDF por inteiro */
+            max-height: none !important;
+            overflow: hidden !important; /* Remove qualquer scroll interno */
+            position: relative;
+        }
+
+        .cyber-frame-inner {
+            width: 100% !important;
+            height: 100% !important;
+            overflow: hidden !important;
+        }
+
+        .pdf-iframe {
+            width: 100% !important;
+            height: 130% !important;
+            border: none !important;
+            overflow: hidden !important;
+        }
+
+        /* Desabilita os seletores de scroll específicos do Webkit */
+        .cyber-frame-container::-webkit-scrollbar,
+        .pdf-iframe::-webkit-scrollbar {
+            display: none !important;
+            width: 0 !important;
+            height: 0 !important;
+        }
+
+        /* Oculta o indicador arrastável visual do JS já que a tela ficará estática em tamanho cheio */
+        .cyber-frame-container::after {
+            display: none !important;
+        }
+
+        /* =========================================
+           AJUSTES EXCLUSIVOS DO FOOTER NESSA PÁGINA
+           ========================================= */
+        footer {
+            background-color: #030731cb !important; /* Fundo Preto Claro */
+            
+            position: relative;
+            z-index: 2;
+            box-shadow: inset 0 10px 20px rgba(255, 0, 255, 0.05);
+        }
+
+        /* Organiza os elementos desalinhados */
+        #alinhaFooter {
+            align-items: center !important;
+            flex-wrap: wrap;
+            gap: 20px;
+            border: none !important;
+            padding: 50px 0px 0px 15% !important;
+            
+        }
+
+        /* Corrige o espaço gigante que os ícones ausentes causavam */
+        #f2 {
+            min-height: auto !important;
+            height: auto !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            padding: 10px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #menu{
+            background-color: #150027c3 !important; /* Fundo Preto Claro */   
+        }
+
+        /* Remove o degradê antigo e aplica o fundo preto claro */
+        #f3 {
+            position: relative !important; /* Anula o absolute do responsive.css */
+            top: auto !important;          /* Anula o distanciamento do topo */
+            height: auto !important;       /* Permite que o texto dite a altura da div */
+            padding: 20px 0;               /* Adiciona um respiro de espaço */
+            background: #121212 !important;
+            border-top: 2px dashed #ff00ff !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        #f3 p {
+            color: #ff00ff !important; /* Texto em Magenta para combinar com a nova borda */
+        }
+
+        #f3 p::after {
+            color: #ff00ff !important;
+        }
+
+        .direitos-autorais {
+            background-color: #0a0a0a !important;
+            border-top: 1px solid rgba(255, 0, 255, 0.1) !important;
+        }
+
+        #audio-toggle {
+    display: flex;
+    opacity: 100;
+}
+    </style>
+</head>
+
+<body>  
+    
+    <button id="audio-toggle" class="btn-neon-audio" aria-label="Alternar som"><i id="audio-icon" class="fas fa-volume-up"></i></button>
+    <!-- Vídeo de fundo Vaporwave Grid -->
+    <div class="video-bg-container">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="https://res.cloudinary.com/zmctacqf/video/upload/v1788360824/cybertechbg.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <nav id="menu">
+        <div class="logoSite"><strong class="strongBlue">&lt;br//</strong>GUSTAVO<strong
+                class="strongBlue">&gt;</strong></div>
+
+        <div class="alinhamentoNav">
+                    <div id="alinhamentoB">
+                 <button class="botaoNav"><a href="index.html">Voltar ao Início</a></button>
+                <a href="meupdf.html"> <button class="botaoNav" id="CV">CV</button></a>
+                <a href="cert_even.html"><button class="botaoNav" id="certificados">CERTIFICAÇÕES E EVENTOS</button></a>
+            </div>
+        </div>
+    </nav>
+
+    <main class="pdf-viewer-section">
+        <h1 class="pdf-title">MEU CURRICULO</h1>
+
+        <div class="cyber-frame-container">
+            <div class="cyber-frame-inner">
+                <iframe src="meuCurriculo.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH" class="pdf-iframe" title="Currículo do Gustavo" scrolling="no"></iframe>
+            </div>
+        </div>
+
+        <a href="meuCurriculo.pdf" download="meuCurriculo.pdf" class="btn-cyber-download">
+            <i class="fa-solid fa-download"></i> Baixar Currículo
+        </a>
+    </main>
+
+    <!-- Footer reajustado -->
+    <footer>
+        <div id="alinhaFooter">
+            <div id="f1">
+                <p class="copyright">© 2026 Gustavo. Todos os direitos reservados.</p>
+                <p class="tech-uiux">Tecnologia UI/UX</p>
+            </div>
+
+            <div id="f2">
+                <svg id="svg-conexoes"></svg>
+                <p class="feito-com">Feito com ❤️ e Programação - Veja o código</p>
+                <div class="social-icons">
+                </div>
+            </div>
+        </div>
+
+
+    </footer>
+            <div id="f3">
+            <p>Obrigado pela visita! Vamos criar algo incrível juntos.</p>
+        </div>
+
+    <div class="direitos-autorais">
+        <p>© 2026 Gustavo. Todos os direitos reservados.</p>
+    </div>
+
+    <script src="resizer.js"></script>
+    <script src="audio.js"></script>
+
+</body>
+</html>

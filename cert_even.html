@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="icones/microchip2.ico" type="image/x-icon">
+    <title>Visualizador de Currículo - Gustavo</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link href="icones/fontawesome/css/all.css" rel="stylesheet">
+    <style>
+        /* =========================================
+           CONFIGURAÇÕES BASE DA PÁGINA
+           ========================================= */
+        body {
+            height: auto !important;
+            min-height: 100vh;
+            background-color: #121212 !important;
+            overflow-y: auto !important;
+            color: #fff;
+        }
+
+        /* Container do Vídeo de Fundo Fixo */
+        .video-bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .video-bg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        #menu{
+            background-color: #150027c3 !important; 
+        }
+
+        /* Títulos em Neon - Futura */
+        .neon-title {
+            font-family: 'Futura', sans-serif;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-align: center;
+            margin-top: 5px;
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 
+                0 0 5px rgba(255, 255, 255, 0.8), 
+                0 0 15px #00ffff, 
+                0 0 30px #ff00ff;
+        }
+
+        /* =========================================
+           NOVA ESTRUTURA: EVENTOS E CERTIFICADOS
+           ========================================= */
+        .alinhamentoEC {
+            position: relative;
+            z-index: 1;
+            padding: 40px 10%;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
+        }
+
+        /* CONTAINER DA FRENTE (Apenas o Glow) */
+        .containerEvento, .containerCertificado {
+            position: relative; /* Necessário para posicionar o "container fantasma" atrás */
+            background: rgba(3, 7, 49, 0.7);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 30px;
+            /* Box-shadow apenas para o Glow Neon suave na frente */
+            box-shadow: 
+                0 0 15px rgba(86, 0, 110, 0.6), /* Glow externo aqua */
+                inset 0 0 20px rgba(255, 0, 255, 0.05); /* Glow interno magenta */
+            backdrop-filter: blur(5px);
+            z-index: 1;
+        }
+
+        /* CONTAINER DE TRÁS (Fantasma criado pelo CSS apenas para a sombra escura) */
+        .containerEvento::before, .containerCertificado::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 10px; /* Mesmo arredondamento do principal */
+            z-index: -1; /* Joga para trás do container principal */
+            /* Box-shadow profunda sem afetar o neon da frente */
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.491); 
+            pointer-events: none; /* Para não atrapalhar cliques nos botões/fotos */
+        }
+
+        /* --- SESSÃO EVENTOS (ATUALIZADA) --- */
+        .evento-layout {
+            display: flex;
+            gap: 30px;
+            align-items: stretch;
+        }
+
+        /* Aside Esquerdo (Mídias) */
+        .evento-midia {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            justify-content: center; /* Mantém fotos centralizadas caso texto seja maior */
+            margin: 15px 0; /* Margem top e bottom */
+            width: 100%;
+        }
+
+        /* --- CONFIGURAÇÕES DE IMAGEM COM ÍCONE DE OLHO --- */
+        .img-wrapper {
+            position: relative;
+            cursor: pointer;
+            border-radius: 5px;
+            overflow: hidden; 
+        }
+
+        .img-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            pointer-events: none; 
+            border-radius: 5px;
+            z-index: 2;
+        }
+
+        .img-overlay i {
+            color: #00ffff;
+            font-size: 2.5rem;
+            text-shadow: 0 0 15px #00ffff, 0 0 30px #ff00ff;
+            transform: scale(0.5); 
+            transition: transform 0.3s ease;
+        }
+
+        .img-wrapper:hover .img-overlay {
+            opacity: 1;
+        }
+
+        .img-wrapper:hover .img-overlay i {
+            transform: scale(1); 
+        }
+
+        /* Div maior (Foto Principal) */
+        .midia-destaque {
+            width: 100%;
+            display: block;
+        }
+
+        .midia-destaque .img-wrapper img {
+            width: 100%;
+            display: block;
+            height: 320px; /* Aumentado para melhor harmonia com texto */
+            object-fit: cover;
+            object-position: top center; /* Corta a imagem priorizando o top center */
+            border: 1px solid #ff00ff83;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.8), 0 0 10px rgba(255, 0, 255, 0.2);
+        }
+
+        .midia-destaque .img-wrapper:hover img {
+            box-shadow: 0 0 15px #ff00ff;
+            border-color: #00ffff;
+        }
+
+        /* Divs menores (2 em 2) */
+        .midia-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+        }
+
+        .midia-grid .img-wrapper img {
+            width: 100%;
+            height: 150px; /* Aumentado para cobrir mais o espaço vertical */
+            object-fit: cover;
+            object-position: top center; /* Corta a imagem priorizando o top center */
+            display: block;
+            border: 1px solid #ff00ffa4;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8), 0 0 5px rgba(255, 0, 255, 0.2);
+        }
+
+        .midia-grid .img-wrapper:hover img {
+            transform: scale(1.1); 
+            box-shadow: 0 0 15px #ff00ff;
+            border-color: #00ffff;
+        }
+
+        /* Barra divisória laranja */
+        .evento-divisor {
+            width: 3px;
+            background-color: #ff9900;
+            border-radius: 2px;
+            box-shadow: 0 0 10px #ff9900, 0 0 20px rgba(255, 153, 0, 0.5); 
+        }
+
+        /* Aside Direito (Textos) */
+        .evento-texto {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .neon-right {
+            text-align: center !important;
+            margin-top: 0px;
+            font-size: 1.8em;
+            margin-bottom: 35px;
+        }
+
+        .evento-desc {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            text-align: justify;
+            text-shadow: 1px 1px 2px #000;
+        }
+
+        @media (max-width: 900px) {
+            .evento-layout {
+                flex-direction: column-reverse;
+            }
+            .evento-divisor {
+                width: 100%;
+                height: 3px;
+            }
+            .neon-right {
+                text-align: center !important;
+            }
+        }
+
+        /* --- SESSÃO CERTIFICADOS --- */
+        .alinhamentoDivCertificado {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .divcertificado {
+            width: 220px;
+            height: 150px;
+            background: rgba(18, 18, 18, 0.8);
+            border: 2px dashed #00ffff;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            padding: 15px;
+        }
+
+        .divcertificado p {
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .divcertificado i {
+            font-size: 3rem;
+            color: #ff00ff;
+            margin-bottom: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .divcertificado:hover {
+            background: rgba(0, 255, 255, 0.1);
+            border: 2px solid #ff00ff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 0, 255, 0.3);
+        }
+
+        .divcertificado:hover i {
+            color: #00ffff;
+        }
+
+        /* =========================================
+           MODAL (TELA CHEIA PARA FOTOS E PDFs)
+           ========================================= */
+        .cyber-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .modal-content-container {
+            width: 80%;
+            height: 85%;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content-container img {
+            max-width: 100%;
+            max-height: 100%;
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4); 
+            object-fit: contain; /* Para não cortar fotos ao ampliar */
+        }
+
+        .modal-content-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+        }
+
+        /* Controles do Modal */
+        .close-modal {
+            position: absolute;
+            top: 20px;
+            right: 40px;
+            color: #ff00ff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+            z-index: 10000;
+        }
+        .close-modal:hover { color: #00ffff; }
+
+        .modal-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #ff00ff;
+            font-size: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 10000;
+            padding: 20px;
+            text-shadow: 0 0 10px #ff00ff;
+            display: none; /* Oculto por padrão, ativado via JS para fotos */
+        }
+        .modal-nav:hover {
+            color: #00ffff;
+            text-shadow: 0 0 20px #00ffff;
+            transform: translateY(-50%) scale(1.1);
+        }
+        .modal-prev { left: 5%; }
+        .modal-next { right: 5%; }
+
+        /* =========================================
+           AJUSTES EXCLUSIVOS DO FOOTER NESSA PÁGINA
+           ========================================= */
+        footer {
+            background-color: #030731cb !important; 
+            position: relative;
+            z-index: 2;
+            box-shadow: inset 0 10px 20px rgba(255, 0, 255, 0.05);
+        }
+
+        #alinhaFooter {
+            align-items: center !important;
+            flex-wrap: wrap;
+            gap: 20px;
+            border: none !important;
+            padding: 50px 0px 0px 15% !important;
+        }
+
+        #f2 {
+            min-height: auto !important;
+            height: auto !important;
+            background: transparent !important;
+            border-radius: 0 !important;
+            padding: 10px !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #f3 {
+            position: relative !important; /* Anula o absolute do responsive.css */
+            top: auto !important;          /* Anula o distanciamento do topo */
+            height: auto !important;       /* Permite que o texto dite a altura da div */
+            padding: 20px 0;               /* Adiciona um respiro de espaço */
+            background: #121212 !important;
+            border-top: 2px dashed #ff00ff !important;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+
+        #f3 p { color: #ff00ff !important; }
+        #f3 p::after { color: #ff00ff !important; }
+
+        .direitos-autorais {
+            background-color: #0a0a0a !important;
+            border-top: 1px solid rgba(255, 0, 255, 0.1) !important;
+        }
+
+                #audio-toggle {
+    display: flex;
+    opacity: 100;
+}
+
+    </style>
+</head>
+
+<body>  
+    
+    <button id="audio-toggle" class="btn-neon-audio" aria-label="Alternar som"><i id="audio-icon" class="fas fa-volume-up"></i></button>
+    <!-- Vídeo de fundo Vaporwave Grid -->
+    <div class="video-bg-container">
+        <video autoplay loop muted playsinline class="video-bg">
+            <source src="https://res.cloudinary.com/zmctacqf/video/upload/v1788360825/pinkgrid.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- Navegação -->
+    <nav id="menu">
+        <div class="logoSite"><strong class="strongBlue">&lt;br//</strong>GUSTAVO<strong class="strongBlue">&gt;</strong></div>
+        <div class="alinhamentoNav">
+            <div id="alinhamentoB">
+                 <button class="botaoNav"><a href="index.html">Voltar ao Início</a></button>
+                <a href="meupdf.html"> <button class="botaoNav" id="CV">CV</button></a>
+                <a href="cert_even.html"><button class="botaoNav" id="certificados">CERTIFICAÇÕES E EVENTOS</button></a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Estrutura Principal (AlinhamentoEC) -->
+    <main class="alinhamentoEC">
+        
+        <!-- Bloco 1: EVENTOS -->
+        <section class="containerEvento">
+            <h1 class="neon-title">Eventos</h1>
+            <div class="evento-layout">
+                
+                <!-- Aside Esquerdo: Fotos (1 Maior + 4 Menores) -->
+                <aside class="evento-midia">
+                    
+                    <!-- 1 Div Maior -->
+                    <div class="midia-destaque">
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto1.jpeg" alt="Foto Principal">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                    </div>
+
+                    <!-- Divs Menores (2 em 2) -->
+                    <div class="midia-grid">
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto1.jpeg" alt="Foto 1">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto2.jpg" alt="Foto 2">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto3.jpeg" alt="Foto 3">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto4.jpg" alt="Foto 4">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto5.jpg" alt="Foto 5">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto6.jpeg" alt="Foto 6">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto7.jpg" alt="Foto 7">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                        
+                        <div class="img-wrapper" onclick="abrirModal('img', this.querySelector('img').src)">
+                            <img src="imagens/SynapseAnemo/Foto8.jpeg" alt="Foto 8">
+                            <div class="img-overlay"><i class="fa-solid fa-eye"></i></div>
+                        </div>
+                    </div>
+                </aside>
+
+                <!-- Divisor Laranja no meio -->
+                <div class="evento-divisor"></div>
+
+                <!-- Aside Direito: Textos -->
+                <aside class="evento-texto">
+                    <h1 class="neon-title neon-right">Projeto Synapse Anemo - UAMExpo 2026</h1>
+                    <p class="evento-desc">Esse projeto foi desenvolvido durante o 1º semestre de Engenharia de Software para a Avaliaçao 03 para a ExpoUAM 2026, o escopo do projeto envolveu a criação de uma aplicação web interativa usando <strong>Phyton (tanto no Frontend quanto no Backend), N8N, Google Gemini IA (ChatBot), Open-Meteo e ESP32.</strong> O objetivo é criar um software que mede a temperatura em Tempo Real e exibe no display do ESP32</p>
+
+                    <p class="evento-desc">A forma de acessar informaçoes no app é atraves do Chatbot que responde e interage com o usuario, o Chatbot chamado de <strong>Kaze-01</strong> busca os dados da <strong>API Open-Meteo</strong>, <strong>converte em JSON</strong> e retorna no chat além de dar dicas sobre o clima se precisa se hidratar ou se precisa levar um casaco além de outras interações como uma representação gráfica do Kaze-01 como um avatar estilo Tamagochi.</p>
+
+                    <p class="evento-desc"> <strong>Os dados do clima são exibidos no display do ESP32, incluindo informações como chuva, temperatura em graus Celsius, umidade relativa, velocidade do vento e pressão atmosférica.</strong></p>
+
+                    <p class="evento-desc">O periférico também se conecta a uma bateria pilha recarregável com entrada para cabo <strong>Tipo C</strong>, permitindo que o dispositivo seja portátil e utilizado em diferentes ambientes, como em atividades ao ar livre ou em locais sem acesso a energia elétrica. </p>
+
+                    <p class="evento-desc">O case de mercado seria implementar sensores de temperatura para escritórios, fazendas e fabricas para identificar problemas nos circuitos em tempo real como superaquecimento ou temperatura abaixo do nor para evitar acidentes e prejuizos.</p>
+                        
+                    <p class="evento-desc">O projeto foi apresentado <strong>na UAMExpo 2026 como projeto de semestre da matéria de Modelagem de Circuitos Elétricos,</strong> onde recebeu feedback positivo pela inovação e aplicabilidade prática tirando nota máxima.</p>
+                </aside>
+            </div>
+        </section>
+
+        <!-- Bloco 2: CERTIFICADOS -->
+        <section class="containerCertificado">
+            <h1 class="neon-title">Meus Certificados</h1>
+            
+            <div class="alinhamentoDivCertificado">
+                <!-- Certificado 1 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - Fundamentos de Lógica de Programação.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Fundamentos de Lógica de Programação</p>
+                </div>
+                <!-- Certificado 2 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - HTML Básico.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>HTML Básico</p>
+                </div>
+                <!-- Certificado 3 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - HTML Avançado.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>HTML Avançado</p>
+                </div>
+                <!-- Certificado 4 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - Introdução ao JavaScript.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Introdução ao JavaScript</p>
+                </div>
+                <!-- Certificado 5 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - Crie um site simples usando HTML, CSS e JavaScript.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Crie um site simples usando HTML, CSS e JavaScript</p>
+                </div>
+                <!-- Certificado 6 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - Inovando com CSS.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Inovando com CSS</p>
+                </div>
+                <!-- Certificado 7 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Escola Virtual - Fundação Bradesco - Inovando com CSS.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Inovando com CSS</p>
+                </div>
+                <!-- Certificado 8 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Imersao IA.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Imersão em IA - Alura</p>
+                </div>
+                <!-- Certificado 9 -->
+                <div class="divcertificado" onclick="abrirModal('pdf', 'certificados e eventos/Tech Week XI.pdf')">
+                    <i class="fa-solid fa-file-pdf"></i>
+                    <p>Tech Week XI - Ânima</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Base (Para abrir PDFs e Imagens com Navegação) -->
+    <div id="cyberModal" class="cyber-modal">
+        <span class="close-modal" onclick="fecharModal()">&times;</span>
+        
+        <!-- Setas de navegação -->
+        <i class="fa-solid fa-chevron-left modal-nav modal-prev" onclick="navegarFotos(-1)"></i>
+        
+        <div class="modal-content-container" id="conteudoModal">
+            <!-- O conteúdo será injetado via JavaScript aqui -->
+        </div>
+        
+        <i class="fa-solid fa-chevron-right modal-nav modal-next" onclick="navegarFotos(1)"></i>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div id="alinhaFooter">
+            <div id="f1">
+                <p class="copyright">© 2026 Gustavo. Todos os direitos reservados.</p>
+                <p class="tech-uiux">Tecnologia UI/UX</p>
+            </div>
+            <div id="f2">
+                <svg id="svg-conexoes"></svg>
+                <p class="feito-com">Feito com ❤️ e Programação - Veja o código</p>
+                <div class="social-icons"></div>
+            </div>
+        </div>
+    </footer>
+    <div id="f3">
+        <p>Obrigado pela visita! Vamos criar algo incrível juntos.</p>
+    </div>
+    <div class="direitos-autorais">
+        <p>© 2026 Gustavo. Todos os direitos reservados.</p>
+    </div>
+
+    <script src="resizer.js"></script>
+    <script src="audio.js"></script>
+
+    <!-- Script para controlar o Modal, Fotos, PDFs e Navegação -->
+    <script>
+        const modal = document.getElementById('cyberModal');
+        const conteudoModal = document.getElementById('conteudoModal');
+        const setas = document.querySelectorAll('.modal-nav');
+        
+        let galeriaImagens = [];
+        let indexAtual = 0;
+
+        // Captura todas as imagens da seção de eventos e guarda na array galeriaImagens
+        const capturarImagens = () => {
+            const imagensNode = document.querySelectorAll('.evento-midia img');
+            galeriaImagens = Array.from(imagensNode).map(img => img.src);
+        };
+
+        // Roda a captura logo ao iniciar
+        capturarImagens();
+
+        function abrirModal(tipo, url) {
+            modal.style.display = 'flex';
+            
+            if (tipo === 'img') {
+                // Descobre a posição da foto clicada dentro do nosso array de galeria
+                indexAtual = galeriaImagens.indexOf(url);
+                if (indexAtual === -1) {
+                    galeriaImagens.push(url);
+                    indexAtual = galeriaImagens.length - 1;
+                }
+                
+                conteudoModal.innerHTML = `<img src="${url}" alt="Imagem em Tela Cheia">`;
+                
+                // Exibe as setinhas apenas quando é imagem
+                setas.forEach(seta => seta.style.display = 'block');
+                
+            } else if (tipo === 'pdf') {
+                conteudoModal.innerHTML = `<iframe src="${url}#toolbar=0&navpanes=0" title="Visualizador de PDF"></iframe>`;
+                
+                // Oculta as setinhas quando é um arquivo PDF
+                setas.forEach(seta => seta.style.display = 'none');
+            }
+        }
+
+        // Função de trocar a foto apertando os botões laterais
+        function navegarFotos(direcao) {
+            indexAtual += direcao;
+            
+            // Lógica para rodar em Loop (se passar da última foto, volta pra primeira)
+            if (indexAtual < 0) {
+                indexAtual = galeriaImagens.length - 1;
+            } else if (indexAtual >= galeriaImagens.length) {
+                indexAtual = 0;
+            }
+            
+            // Troca o src da imagem injetada
+            const novaUrl = galeriaImagens[indexAtual];
+            conteudoModal.innerHTML = `<img src="${novaUrl}" alt="Imagem em Tela Cheia">`;
+        }
+
+        function fecharModal() {
+            modal.style.display = 'none';
+            conteudoModal.innerHTML = '';
+        }
+
+        // Fecha o modal clicando fora do container do conteúdo
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                fecharModal();
+            }
+        }
+    </script>
+</body>
+</html>

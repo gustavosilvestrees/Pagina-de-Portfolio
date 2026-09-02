@@ -1,0 +1,162 @@
+@charset "utf-8";
+
+@import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+*{
+  margin: 0px;
+  overflow-x: hidden;
+}
+
+/* SLIDER */
+
+
+
+.fotoDesktop1{
+  background-image: url(slider/2Academia.png);
+  width: 1800px;
+  height: 600px;
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.489);
+  
+
+}
+
+.fotoMobile1{
+  width: 1040px;
+  height: 600px;
+  background-image: url(slider/2AcademiaMobile.png);
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.489);
+}
+
+.fotoDesktop2{
+  background-image: url(slider/3Esteira.png);
+  width: 1800px;
+  height: 600px;
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.489);
+
+
+}
+
+.fotoMobile2{
+  width: 1040px;
+  height: 600px;
+  background-image: url(slider/3EsteiraMobile.png);
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.489);
+}
+
+
+
+.fotoDesktop3{
+  background-image: url(slider/4Funcional.png);
+  width: 1800px;
+  height: 600px;
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.489);
+
+}
+
+.fotoMobile3{
+  width: 1040px;
+  height: 600px;
+  background-image: url(slider/4FuncionalMobile.png);
+  box-shadow: inset 0px 10px 10px rgba(0, 0, 0, 0.489);
+}
+
+section.slider{
+    margin: 0 auto;
+    width: 100%;
+    height: auto;
+    padding: 0 !important; /* o !important diz para não criar paddings adicionais em outros dispositivos pelo menos dentro da section slider */
+}
+
+.sliderContent{
+    width: 400%;
+    height: auto;
+    display: flex;
+    overflow: hidden;
+}
+
+.sliderContent input, .mobal{
+    display: none;
+    
+}
+
+.slide-box{
+    width: 25%;
+    height: auto;
+    position: relative;
+    justify-content: center;
+    transition: 1s;
+    
+}
+
+.mobal{
+    width: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+
+}
+
+.navManual, .navAuto{
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 40%;
+    padding: 5px 0px;
+    
+}
+
+.navManual .manual-btn, .navAuto div{
+    border: 1px solid #ff0054;
+    padding: 10px;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.navManual .manual-btn:not(:last-child), .navAuto div:not(:last-child){ /* estou dizendo que todos os elementos que são .navManual .manual-btn tenham o estilo abaixo exceto(:not) o ultimo elemento(:last-child) */
+    margin-right: 10px;
+}
+
+.navManual .manual-btn:hover{
+  background-color: #ff0054;
+}
+
+
+#radio1:checked ~ .navAuto .auto-btn1, #radio2:checked ~ .navAuto .auto-btn2, #radio3:checked ~ .navAuto .auto-btn3{ /* quando os radios estiverem marcados aplique o estilo nos elementos irmãos(~) no caso os .navAuto e .auto-btn isso vai acontecer só com eles*/
+  background-color: #ff0054;
+
+} 
+
+/* Faz a transição de imagem*/
+
+#radio1:checked ~ .primeiro{
+  margin-left: 0%;
+}
+
+#radio2:checked ~ .primeiro{
+  margin-left: -25%;
+}
+
+#radio3:checked ~ .primeiro{
+  margin-left: -50%;
+}
+
+
+@media screen and (max-width: 1000px) {
+  .desktop{
+    display: none;
+  }
+
+  .mobal{
+    display: block;
+    
+  }
+
+  
+}
+
+
+
+/* Textox */

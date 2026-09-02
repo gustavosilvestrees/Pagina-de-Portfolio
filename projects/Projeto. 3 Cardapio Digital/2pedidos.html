@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link href="icones/fontawesome/css/all.css" rel="stylesheet">
+    <link rel="shortcut icon" href="icones/favicons/pizza1.png" type="image/x-icon">
+    <title>Minha Sacola - Trattoria Pizzaria</title> </head>
+
+<body>
+    <header class="superior"> <div class="esquerda">
+            <div class="logo"></div>
+            <p class="nome-restaurante-header">Trattoria Pizzaria </p>
+            <div class="pesquisa">
+                <input type="text" placeholder="Pesquisar...">
+            </div>
+            <div class="compartilhar"><i class="fa-solid fa-square-share-nodes"></i></div>
+        </div>
+    </header>
+
+    <main class="principal-sacola"> <div class="titulo-sacola-container"> <p class="tituloMenu">PEDIDOS</p>
+            <div class="close-sacola"></div> </div>
+
+        <section class="itens-sacola"> 
+
+
+        </section>
+            <div id="novoAlign">
+                <button class="btn-finalizar-pedido2"  onclick="criarPedido()">Criar Pedido</button>
+                <button class="btn-finalizar-pedido2" onclick="deletarPedido()">Deletar Pedido</button>
+            </div>
+
+    </main>
+
+    <footer class="inferior"> <!-- Botoes Inferiores -->
+        <a href="1pedidos_principais.html">
+            <div class="alinhamentoDiv">
+                <button class="botao">Início</button>
+                <div class="iconesInferior"><i class="fa-solid fa-house"></i></div>
+            </div>
+        </a>
+
+        
+        <a href="2pedidos.html">
+        <div class="alinhamentoDiv">
+        <button class="botao">Pedidos</button>
+        <div class="iconesInferior"><i class="fa-regular fa-note-sticky"></i></div>
+        </div>
+        </a>
+
+        <a href="3carrinho.html">
+        <div class="alinhamentoDiv">
+            <button class="botao"> Carrinho</button>
+            <div class="iconesInferior"><i class="fa-solid fa-cart-shopping"></i></div>
+        </div>
+        </a>
+    </footer>
+
+    <script src="script.js" defer></script>
+</body>
+
+</html>

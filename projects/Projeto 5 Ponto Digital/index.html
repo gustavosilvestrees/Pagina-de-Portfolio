@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StudyFlow - Ponto de Estudos</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="shortcut icon" href="favicon2.ico" type="image/x-icon">
+</head>
+
+<body class="theme-dark">
+    <header> <!-- Cabeçalho -->
+        <div class="logo">Study<span>Flow</span></div>
+        <div id="current-time">00:00:00</div>
+
+<div class="theme-selector">
+    <button id="theme-btn" title="Personalizar Cores">🖌️</button>
+    <div id="theme-menu" class="theme-options hidden">
+        <div class="theme-section">
+            <h4>Modo Claro</h4>
+            <div class="theme-row" id="row-light">
+                </div>
+        </div>
+        <div class="theme-section">
+            <h4>Modo Escuro</h4>
+            <div class="theme-row" id="row-dark">
+                </div>
+        </div>
+    </div>
+</div>
+        
+        <div class="status-container">
+            <span id="status-dot"></span>
+            <span id="status-text">Disponível <div id="bolinha"></div></span>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="main-layout">
+        <section class="timer-card">
+            <h2>Tempo de Estudo</h2>
+            <div id="display-timer">00:00:00</div>
+
+            <div class="actions">
+                <button id="btn-pause" class="btn-pause hidden">Pausar</button>
+                <button id="btn-action" class="btn-start">Iniciar Estudo</button>
+            </div>
+
+            <div id="input-area" class="hidden">
+                <textarea id="study-notes" placeholder="O que você aprendeu hoje?"></textarea>
+                <button id="btn-save" class="btn-start">Salvar Registro</button>
+            </div>
+        </section>
+
+        <aside class="measurement-chart">
+        <h3>Metas de Foco</h3>
+        <ul>
+            <li><span class="box red"></span> 10min - Melhor que parado! (1%)</li>
+            <li><span class="box yellow"></span> 30min - Foco total! No ritmo.</li>
+            <li><span class="box green"></span> 1h - Muito Bom! Consistência.</li>
+            <li><span class="box blue"></span> 2h - Incrível! Mente afiada.</li>
+            <li><span class="box purple"></span> 3h+ - Excelente! Além das expectativas.</li>
+        </ul>
+    </aside>
+        </div>
+
+        <section class="history-container chart-section">
+            <h3>Produtividade Semanal (Horas)</h3>
+    <canvas id="studyChart"></canvas>
+
+            
+
+            <div class="history-header">
+                <h3>Meus Registros</h3>
+                <button id="btn-export" class="btn-secondary">Exportar PDF</button>
+                <button id="btn-clear" class="btn-clear">Limpar Tudo</button>
+            </div>
+
+            <table id="history-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Total</th>
+                        <th>Resumo</th>
+                    </tr>
+                </thead>
+                <tbody id="history-list">
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="script.js"></script>
+<script src="dashboard.js"></script>
+<script src="temas.js"></script>
+</body>
+
+</html>
+
+<!-- 
+
+COISAS QUE ALTAM ADD NO PROJETO
+
+> JANELA MODAL
+> AJUSTAR O TEXTO DENTRO DE TEXT AREA PARA FICAR SEMPRE BRANCO COM TEXTO PRETO OU O CONTRARIO CASO ESTEJA EM MODO ESCURO OU SE ADAPTE AO TEMA
+> ADD ANIMAÇÃO DE CARREGANDO ENQUANTO O APP ESTIVER INICIANDO
+
+
+-->

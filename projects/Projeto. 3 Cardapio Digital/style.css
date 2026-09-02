@@ -1,0 +1,1076 @@
+/* GLOBAL */
+* {
+    width: 100%;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+:root {
+    --amarelo: #FFB80E;
+    --vermelho: #E32929;
+    --marromavermelhado: #982121;
+    --laranja: #FF611D;
+    --marrom: #813531;
+    --verde: #9EC640;
+    --roxoclaro: #9762A7;
+}
+
+/* HEADER SUPERIOR */
+.superior {
+    display: flex;
+    /* */
+    justify-content: space-between;
+    /* */
+    align-items: center;
+    /* */
+    padding: 10px;
+    /* */
+    background-color: rgb(218, 1, 1);
+    /* */
+    flex-wrap: nowrap;
+    /* */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    /* Sombra suave para o header */
+    z-index: 100;
+    /* Garante que o header fique acima de outros conteúdos */
+    position: sticky;
+    /* Faz o header ficar fixo ao rolar */
+    top: 0;
+    /* Fixa no topo */
+
+}
+
+.superior .esquerda {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+.superior .logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: lightblue;
+    background-image: url('trattoriapizzeria.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    padding: 5px;
+    margin-right: 15px;
+    /* Ajusta a margem para o nome do restaurante */
+    margin-left: 10px;
+    /* Mantém o alinhamento com a borda */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.355);
+    flex-shrink: 0;
+    /* Garante que o logo não encolha */
+}
+
+.nome-restaurante-header {
+    width: auto;
+    /* Deixa a largura se ajustar ao conteúdo */
+    color: white;
+    text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.467);
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-right: auto;
+    /* Empurra a pesquisa e compartilhar para a direita */
+    padding: 0 5px;
+    white-space: nowrap;
+    /* Impede que o texto quebre linha */
+    flex-shrink: 0;
+    /* Garante que o nome não encolha */
+}
+
+.superior .pesquisa {
+    width: auto;
+    /* Permite que a largura seja flexível */
+    flex-grow: 1;
+    /* Permite que a pesquisa ocupe o espaço restante */
+    flex-shrink: 1;
+    /* Permite que ela encolha */
+    max-width: 400px;
+    /* Limita a largura máxima em telas grandes */
+    padding: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.superior .pesquisa input {
+    width: 100%;
+    padding: 12px;
+    border-radius: 50px;
+    border: 2px solid #ffb70eb1;
+}
+
+
+
+
+
+
+.superior .compartilhar {
+    text-align: center;
+    width: auto;
+    font-size: 2em;
+    color: whitesmoke;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.448);
+    padding: 5px;
+    margin-right: 10px;
+    /* Alinha com a borda direita */
+    flex-shrink: 0;
+    /* Garante que o ícone não encolha */
+    white-space: nowrap;
+    /* Impede que o conteúdo do compartilhar quebre */
+}
+
+
+@media screen and (max-width: 800px) {
+    .superior {
+        padding: 8px;
+        /* Ajusta o padding do header */
+        box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.458);
+    }
+
+    .superior .logo {
+        width: 70px;
+        /* Reduz o logo um pouco */
+        height: 70px;
+        margin-right: 10px;
+    }
+
+    .nome-restaurante-header {
+        font-size: 1.1em;
+        /* Reduz o tamanho da fonte */
+        padding: 0 3px;
+    }
+
+    .superior .pesquisa {
+        max-width: 250px;
+        /* Limita a largura da pesquisa para tablet */
+        margin-left: 8px;
+        margin-right: 8px;
+    }
+
+    .superior .pesquisa input {
+        padding: 10px;
+        /* Reduz o padding do input */
+    }
+
+    .superior .compartilhar {
+        font-size: 1.8em;
+        /* Reduz o tamanho do ícone */
+        margin-right: 8px;
+    }
+}
+
+.compartilhar:hover {
+    color: white;
+}
+
+
+/* Para telas até 520px (smartphones e menores) */
+@media screen and (max-width: 520px) {
+    .superior {
+        padding: 5px;
+        /* Mais ajuste no padding do header */
+    }
+
+    .superior .logo {
+        width: 50px;
+        /* Logo menor */
+        height: 50px;
+        margin-right: 8px;
+    }
+
+    .nome-restaurante-header {
+        font-size: 0.9em;
+        /* Fonte ainda menor */
+        padding: 0 2px;
+    }
+
+    .superior .pesquisa {
+        max-width: 120px;
+        /* Limita bem a largura da pesquisa */
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+
+    .superior .pesquisa input {
+        padding: 8px;
+        /* Padding mínimo no input */
+        font-size: 0.8em;
+        /* Fonte do placeholder menor */
+    }
+
+    .superior .compartilhar {
+        font-size: 1.4em;
+        /* Ícone bem menor */
+        margin-right: 5px;
+    }
+
+
+}
+
+
+/* BANNER COM NAVEGAÇÃO */
+
+.principal {
+    max-width: 1500px;
+    min-width: 400px;
+    /* Certifique-se que o conteúdo mínimo ainda caiba aqui */
+    margin-top: 20px;
+    margin-bottom: 110px;
+    padding: 0 10px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.principal-sacola {
+    max-width: 800px;
+    /* Largura ideal para a sacola */
+    margin: 20px auto 100px auto;
+    /* Centraliza e adiciona margem inferior para o footer */
+    padding: 20px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.banner-com-navegacao {
+    position: relative;
+    max-width: 90%;
+    /* Continua ajustável em relação ao principal */
+    margin: 20px auto;
+    overflow: hidden;
+    /* Adicione uma altura mínima para evitar que a div encolha demais */
+    min-height: 150px;
+    /* Ajuste conforme necessário para garantir que o overlay sempre tenha espaço */
+}
+
+.banner-img {
+    width: 100%;
+    height: 250px;
+    /* Altura fixa para o banner */
+    display: block;
+    object-fit: cover;
+    /* Recorta a imagem para preencher o container */
+    object-position: center center;
+    /* Tenta manter o centro da imagem (onde a logo deve estar) visível */
+    /* Você pode ajustar o object-position para 'top center', 'bottom center', etc.,
+       dependendo de onde sua logo está na imagem 'banner_lojaF3.png' */
+}
+
+#bannerTratoria{
+    width: 100%;
+    height: 250px;
+    /* Altura fixa para o banner */
+    display: block;
+    /* Recorta a imagem para preencher o container */
+    background-image: url('bannerG.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: top;
+    /* Tenta manter o centro da imagem (onde a logo deve estar) visível */
+    /* Você pode ajustar o object-position para 'top center', 'bottom center', etc.,
+       dependendo de onde sua logo está na imagem 'banner_lojaF3.png' */
+}
+
+@media screen and (max-width: 600px) {
+    #bannerTratoria{
+        background-image: url('bannerM.png');
+    }
+}
+
+.navegacao-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.navegacao-overlay .simbolo {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+    background-color: rgb(255, 255, 255);
+    padding: 2px;
+}
+
+.navegacao-overlay .nome {
+    width: auto;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.navegacao-overlay .estrelas {
+    width: auto;
+    margin-left: auto;
+}
+
+
+
+
+/* CARDÁPIO - Ajustes de texto e remoção de background */
+
+.pizza-preco {
+    font-weight: 700;
+    color: var(--marromavermelhado);
+}
+
+.cardapio .card-pizzas .texto {
+    text-align: left;
+    /* ALINHA O TEXTO À ESQUERDA */
+    /* background-color: green; /* REMOVIDO */
+}
+
+.cardapio .card-pizzas .pizza-nome {
+    padding: 3px;
+    height: 50%;
+    font-weight: bold;
+    /* ADICIONA NEGRITO AO PARÁGRAFO */
+    /* background-color: pink; /* REMOVIDO */
+}
+
+.cardapio .card-pizzas .pizza-info {
+    color: rgba(0, 0, 0, 0.682);
+    padding: 3px;
+    height: 50%;
+    text-align: left;
+    /* ALINHA O TEXTO À ESQUERDA */
+    /* background-color: magenta; /* REMOVIDO */
+}
+
+/* Continuam as outras regras de cardápio e footer */
+.cardapio {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+@media screen and (max-width: 980px) {
+    .cardapio {
+        flex-direction: column;
+    }
+}
+
+.cardapio .card-pizzas {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 48%;
+    height: 20vh;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 10px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.295);
+    transition: 0.5s;
+}
+
+
+.cardapio .card-pizzas:hover {
+    transform: scale(1.02);
+    transition: all 0.5s;
+}
+
+.cardapio .card-pizzas:active {
+    background-color: rgba(207, 206, 206, 0.592);
+    transform: scale(0.98);
+    transition: all 0.1s;
+}
+
+@media screen and (max-width: 980px) {
+    .cardapio .card-pizzas {
+        display: flex;
+        flex-direction: row-reverse;
+        width: 100%;
+        height: 20vh;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        padding: 10px;
+
+    }
+}
+
+@media screen and (max-width: 870px) {
+    .cardapio .card-pizzas .imagem {
+        width: 20vh;
+    }
+}
+
+.cardapio .card-pizzas .imagem {
+    text-align: center;
+    width: 30vh;
+    box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.34);
+    border-radius: 5px;
+}
+
+.miniImg {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 5px;
+}
+
+
+
+/* Menu Inferior */
+
+.iconesInferior {
+    font-size: 1.7em;
+    text-shadow: 1px 3px 5px rgba(0, 0, 0, 0.451);
+}
+
+.alinhamentoDiv {
+    display: flex;
+    flex-direction: column-reverse;
+    text-align: center;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+}
+
+
+
+.alinhamentoDiv:hover {
+    background-color: #fb4c4c;
+    transition: all 0.1s ease-out;
+}
+
+
+.inferior {
+    /* */
+    display: flex;
+    /* */
+    justify-content: space-around;
+    /* */
+    background-color: var(--vermelho);
+    /* */
+    padding: 0px;
+    /* */
+    position: fixed;
+    /* */
+    bottom: 0;
+    /* */
+    z-index: 99;
+    /* Para ficar acima de outros conteúdos, mas abaixo do header */
+    width: 100%;
+    /* Garante que o footer ocupe toda a largura */
+}
+
+.inferior .botao {
+    width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 5px 10px;
+    color: white;
+    text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.451);
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+    font-size: 1em;
+
+}
+
+/* ESTILOS PARA A PÁGINA DA SACOLA (2pedidos.html) */
+
+.titulo-sacola-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--amarelo);
+}
+
+.titulo-sacola-container .tituloMenu {
+    width: auto;
+    /* Ajusta ao conteúdo */
+    margin: auto;
+    font-size: 2em;
+    font-weight: bold;
+    color: var(--vermelho);
+    text-align: left;
+    /* Alinha o texto do título à esquerda */
+}
+
+.close-sacola {
+    width: auto;
+    /* Ajusta ao conteúdo */
+    font-size: 1.8em;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-sacola:hover {
+    color: var(--vermelho);
+}
+
+.itens-sacola {
+    margin-bottom: 30px;
+}
+
+.item-sacola {
+    display: flex;
+    align-items: center;
+    border: 1px solid #eee;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.item-sacola-img {
+    width: 100px;
+    /* Largura fixa para a imagem do item */
+    height: 100px;
+    /* Altura fixa para a imagem do item */
+    margin-right: 15px;
+    border-radius: 6px;
+    overflow: hidden;
+    flex-shrink: 0;
+    /* Garante que a imagem não encolha */
+}
+
+.item-sacola-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Garante que a imagem preencha o espaço sem distorcer */
+}
+
+.item-info {
+    flex-grow: 1;
+    /* Permite que as informações ocupem o espaço restante */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.item-nome {
+    font-weight: bold;
+    font-size: 1.1em;
+    color: #333;
+    margin-bottom: 5px;
+    width: auto;
+    /* Ajusta ao conteúdo */
+    white-space: nowrap;
+    /* Impede que o nome da pizza quebre */
+    overflow: hidden;
+    /* Esconde o excesso se o nome for muito longo */
+    text-overflow: ellipsis;
+    /* Adiciona "..." se o nome for muito longo */
+}
+
+.item-preco {
+    font-size: 1.05em;
+    color: var(--vermelho);
+    font-weight: bold;
+    width: auto;
+    /* Ajusta ao conteúdo */
+    margin-bottom: 10px;
+}
+
+.item-quantidade-controle {
+    display: flex;
+    align-items: center;
+    width: auto;
+    /* Ajusta ao conteúdo */
+}
+
+.btn-quantidade {
+    width: 30px;
+    /* Largura fixa para os botões */
+    height: 30px;
+    /* Altura fixa para os botões */
+    background-color: var(--amarelo);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-quantidade-diminuir:hover {
+    background-color: #d69f00;
+    /* Tom mais escuro do amarelo no hover */
+}
+
+.input-quantidade {
+    width: 50px;
+    /* Largura para o campo de quantidade */
+    padding: 5px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 8px;
+    font-size: 1em;
+    flex-shrink: 0;
+}
+
+/* Esconde setas padrão em navegadores WebKit (Chrome, Safari) */
+.input-quantidade::-webkit-outer-spin-button,
+.input-quantidade::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+.item-lixeira {
+    width: auto;
+    /* Ajusta ao conteúdo */
+    margin-left: 15px;
+    /* Espaço entre o controle de quantidade e a lixeira */
+    font-size: 1.5em;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    flex-shrink: 0;
+    /* Garante que a lixeira não encolha */
+}
+
+.item-lixeira:hover {
+    color: var(--vermelho);
+}
+
+.sacola-vazia-mensagem {
+    text-align: center;
+    padding: 40px 20px;
+    color: #666;
+    font-size: 1.2em;
+    border: 1px dashed #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    margin-top: 20px;
+}
+
+.btn-voltar-cardapio {
+    background-color: var(--verde);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    margin-top: 20px;
+    transition: background-color 0.2s ease;
+    width: auto;
+    /* Ajusta o botão ao conteúdo */
+}
+
+.btn-voltar-cardapio:hover {
+    background-color: #7da534;
+}
+
+/* Seção de Resumo do Pedido */
+.resumo-pedido {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    margin-top: 20px;
+}
+
+.resumo-alinhamento p {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 1.1em;
+    color: #555;
+    width: auto;
+    /* Deixa p se ajustar ao conteúdo */
+}
+
+.resumo-alinhamento p span {
+    font-weight: bold;
+    color: #333;
+    width: auto;
+    /* Deixa span se ajustar ao conteúdo */
+}
+
+.resumo-total {
+    font-size: 1.3em !important;
+    /* Mais destaque */
+    font-weight: bold;
+    color: var(--vermelho) !important;
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+    margin-top: 15px;
+}
+
+.btn-finalizar-pedido {
+    background-color: var(--vermelho);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    /* Ocupa a largura total */
+}
+
+#novoAlign {
+    display: flex;
+    justify-content: space-around;
+
+}
+
+.numP {
+    font-weight: bold;
+}
+
+.btn-finalizar-pedido2 {
+    background-color: var(--vermelho);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: background-color 0.2s ease;
+    width: 30%;
+    /* Ocupa a largura total */
+}
+
+.btn-finalizar-pedido:hover {
+    background-color: #c91a1a;
+    /* Tom mais escuro do vermelho no hover */
+}
+
+.btn-finalizar-pedido2:hover {
+    background-color: #c91a1a;
+    /* Tom mais escuro do vermelho no hover */
+}
+
+/* MEDIA QUERIES PARA A PÁGINA DA SACOLA */
+@media screen and (max-width: 600px) {
+    .principal-sacola {
+        padding: 15px;
+        margin: 10px auto 80px auto;
+        /* Ajusta margem inferior para o footer */
+    }
+
+    .titulo-sacola-container .tituloMenu {
+        font-size: 1.6em;
+    }
+
+    .close-sacola {
+        font-size: 1.5em;
+    }
+
+    .item-sacola {
+        flex-direction: column;
+        /* Empilha a imagem e as informações */
+        text-align: center;
+        padding: 10px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+
+    /* Estado ativo para a animação de entrada essa classe sera ativada no codigo */
+    .item-sacola.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    /* Animação para a remoção */
+    .item-sacola.hide {
+        opacity: 0;
+        transform: translateY(-20px);
+        transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    }
+
+    .item-sacola-img {
+        width: 80px;
+        height: 80px;
+        margin-right: 0;
+        margin-bottom: 10px;
+        /* Espaço entre imagem e texto */
+    }
+
+    .item-info {
+        align-items: center;
+        /* Centraliza o texto quando empilhado */
+    }
+
+    .item-nome,
+    .item-preco {
+        white-space: normal;
+        /* Permite que o texto do nome e preço quebrem */
+        text-overflow: unset;
+        /* Remove "..." */
+    }
+
+    .item-lixeira {
+        margin-left: 0;
+        margin-top: 15px;
+        /* Espaço acima da lixeira */
+    }
+
+    .btn-finalizar-pedido {
+        font-size: 1em;
+        padding: 12px 20px;
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .principal-sacola {
+        padding: 10px;
+    }
+
+    .item-sacola-img {
+        width: 70px;
+        height: 70px;
+    }
+
+    .item-nome {
+        font-size: 1em;
+    }
+
+    .item-preco {
+        font-size: 0.95em;
+    }
+
+    .btn-quantidade-diminuir,
+    .btn-quantidade-aumentar {
+        width: 25px;
+        height: 25px;
+        font-size: 1em;
+    }
+
+    .item-quantidade {
+        width: 40px;
+        padding: 3px;
+        font-size: 0.9em;
+    }
+
+    .item-lixeira {
+        font-size: 1.3em;
+    }
+}
+
+
+::-webkit-scrollbar {
+    /* Barra de Scrollagem */
+    background-color: whitesmoke;
+    width: 8px;
+
+}
+
+::-webkit-scrollbar-thumb {
+    /* Scroll */
+    background-color: var(--amarelo);
+
+}
+
+
+/* Janela Modal */
+
+        #idModal{
+            position: absolute;
+            z-index: 999;
+        }
+
+        .janelaModal{
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 3s ease-out, visibility 3s ease-out; /* <-- NOVA LINHA: Adiciona transição para opacidade e visibilidade */
+            opacity: 0; /* <-- NOVA LINHA: Inicia com opacidade zero */
+            visibility: hidden; /* <-- NOVA LINHA: Inicia escondido */
+            
+        }
+        
+        .modal{
+            width: 50%;
+            min-width: 400px;
+            min-height: 200px;
+            background-color: #ffffffb2;
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 20px;
+        }
+        
+        .close{
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            border: 0;
+            background-color: red;
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
+        .janelaModal.abrir{ /* Quando a janela modal tiver a classe abrir dentro de se acontece algo */
+            display: flex; /* Mantemos o display: flex para alinhamento */
+            opacity: 1; /* <-- MUDANÇA: Torna a modal visível */
+            visibility: visible; /* <-- MUDANÇA: Torna a modal visível */
+    
+        }
+
+        @keyframes abrirmodal { /* Cria animação para janela modal */
+            from{ /* Define o inicio */
+                opacity: 0;
+                transform: translate3d(0, -20px, 5px);
+            }
+            to{ /* Define onde parar */
+                opacity: 1;
+                transform: translate3d(0, 0, 0);
+            }
+        }
+    
+    .abrir .modal{ /* Define que a animação vai ser invocado alem da velocidade que vai acontecer a animaçao e somente quando tiver a classe abrir e class modal  */
+        animation: abrirmodal 0.2s;
+
+    }
+    #idModal h1{
+        display: flex;
+        justify-content: center;
+        padding: 3px;
+        border-bottom: solid 2px gray;
+    }
+
+     #imgModal1{
+        display: flex;
+        justify-content: center;
+     }
+
+    #imgModal2{
+        display: flex;
+        width: 400px;
+        height: 300px;
+        border-radius: 10px;
+        justify-content: center;
+    }
+
+    #quantidadeModal{   
+        margin-top: 20px;
+        height: 60px;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    #barracinza{
+        border-top: 2px solid gray;
+    }
+
+
+    #descrioModal{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    #pPreco{
+        font-weight: bold;
+        font-size: 1.5em;
+        color: var(--vermelho);
+    }
+    
+    #observação{
+        display: flex;
+        border: 1px solid gray;
+        border-radius: 5px;
+        margin-top: 20px;
+        margin-bottom: 10px;
+        width: 100%;
+        height: 80px;
+        font-size: 1em;
+
+    }
+    
+    .quantidadeInput{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(255, 255, 255, 0.101);
+        backdrop-filter: blur(2px);
+        border-radius: 5px;
+        width: 80px;
+        height: 100%;
+        font-size: 2em;
+        margin-right: 8%;
+        margin-left: 8%;
+    }
+
+    #AlinhamentoModalInf{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 350px;
+
+    }
+
+    #addCarrinho{
+        width: 400px;
+        height: 100%;
+    }
+
+    .btn-quantidade2 {
+    width: 60px;
+    height: 60px;
+    background-color: var(--amarelo);
+    border: 2px solid orange;
+    border-radius: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.2s ease;
+    flex-shrink: 0;
+}
+
+.btn-finalizar2 {
+    background-color: var(--vermelho);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 1.2em;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+    width: 40%;
+    /* Ocupa a largura total */
+}
+
+
+.btn-finalizar2:hover {
+    background-color: #c91a1a;
+    /* Tom mais escuro do vermelho no hover */
+}

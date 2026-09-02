@@ -1,0 +1,24 @@
+Fontes para o site
+
+Programação:
+
+> Consolas já tem no windows
+> JetBrains Mono
+
+
+Contato e logo:
+> Bebas Neue
+> Sans serif
+
+
+
+Perfil
+> Montserrat
+
+H2
+Roboto Slab Light
+
+
+bota
+
+> monospace

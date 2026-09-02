@@ -1,0 +1,423 @@
+@charset "UTF-8";
+@font-face {
+    font-family: 'Lady Nature';
+    src: url(fonts/Lady\ Nature.otf) format('opentype');
+}
+
+*{
+    margin: 0px;
+}
+
+:root{
+    --cor0: #AFEB15;
+    --cor1: #15EB2A;
+    --cor2: #53EB14;
+    --cor3: #15EB72;
+    --cor4: #8CEB63;
+   
+}
+
+body{
+    background-color: #a3f77f;
+    font-family: Arial, Helvetica, sans-serif;
+    
+
+
+}
+
+main{
+    max-width: 800px;
+    display: flex; 
+    align-items: center;
+    flex-direction: column; 
+    justify-content: center;
+    margin: auto;
+}
+
+
+/* Menu Inicial */
+#menuini{
+    width: 1210px;
+    height: 50px;
+    padding: 25px 0px 0px 0px;
+    background-color: whitesmoke;
+    display: flex;
+    justify-content: center;
+}
+
+#barracinza{
+    display: inline-block;
+    background-color: rgba(185, 182, 182, 0.741);
+    width: 1px;
+    height: 20px;
+    margin-left: 80px;
+    
+}
+
+.links{
+    color: #53EB14;
+    font-size: 1.3em;
+    font-weight: bold;
+    text-decoration: none;
+    margin: 0px 0px 0px 60px;
+}
+
+/* Logo do Site Verde */
+nav{
+    display: flex;
+}
+
+#menuimg{
+    width: 45px;
+    height: 30px;
+    margin: 0px 0px 8px 0px;
+}
+
+#logo{
+    font-family: 'Lady Nature', Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: 4.4em;
+    color: white;
+    display: inline-block;
+    margin-left: 25px;
+    margin-right: 20px;
+    word-spacing: 15px;
+    letter-spacing: 3px;
+}
+
+#caixaverde{
+    background-color: #AFEB15;
+    width: 800px;
+    height: 80px;
+    border-radius: 0px 30px 0px 0px;
+}
+
+#redes{
+    display: inline-block;
+}
+
+.redeslink{
+    width: 35px;
+    height: 35px;
+    margin: 0px 0px 5px 40px;
+}
+
+#caixa_de_pesquisa{
+    background-color: rgb(233, 33, 66);
+    width: 400px;
+    height: 80px;
+}
+
+/* Div Noticia Principal */
+
+div{
+    margin: 0px;
+}
+
+#nprincipal{
+    width: 810px;
+    height: 400px;
+    box-shadow: px 0px 0px black;
+}
+
+
+
+
+
+
+
+/* Lado Esquerdo */
+
+#container_esq{
+    background-color: whitesmoke;
+    width: 810px;
+
+}
+
+article{
+    padding: 0px;
+    display: flex;
+    
+}
+
+
+
+#barraverde{
+    background-color: var(--cor3);
+    width: 15px;
+    height: 1760px;
+    margin-right: 3px;
+    margin-top: -4px;
+    display: inline-block;
+
+}
+
+
+
+/* carrossel de noticias */
+
+#imgc{
+    display: inline-block;
+    position: absolute;
+    margin-top: 20px;
+    
+}
+
+.imgcarrossel{
+    width: 180px;
+    height: 120px;
+    border-radius: 5px 5px 0px 0px;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.445);
+}
+
+.carrossel{
+    width: 300px;
+    height: 200px;
+    margin: 0px;
+    float: right;
+    
+}
+
+
+
+.textoscarrossel{
+    text-align: center;
+    background-color: wheat;
+    font-weight: bold;
+    font-size: 13px;
+    width: 175px;
+    height: 100px;
+    border-radius: 0px 0px 5px 5px;
+    padding: 0px 2px 0px 2px;
+    margin: 0px 121px 0px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    float: right;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.445);
+    
+}
+
+#imgt{
+    display: inline-block;
+    position: absolute;
+    margin-top: 170px;
+    
+    
+
+}
+
+/* Noticias Corpo da Pagina */
+
+
+
+#noticias_scroll{
+    display: inline-block;
+    
+}
+
+.nscroll{
+  display: block;
+
+}
+
+.imgscroll{
+    width: 250px;
+    height: 200px;
+    border-radius: 5px;
+    display: inline-block;
+    box-shadow: 3px 3px 8px rgba(0, 0, 0, 0.427);
+    
+    
+}
+
+#textoscroll{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    margin-left: 300px;
+    top: 138%;
+
+}
+
+.txtscroll{
+    color: #53EB14;
+    text-align: left;
+    font-size: 1em;
+    font-weight: bold;
+    display: inline-block;
+    margin: 0px 0px 260px 0px;
+    width: 480px;
+    height: 50px;
+}
+
+
+
+.bclateral{
+    background-color: rgba(128, 128, 128, 0.519);
+    width: 750px;
+    height: 3px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    margin-left: 13px;
+    display: inline-block;
+}
+
+/* Lado Direito */
+
+#container_dir{
+    background-color: purple;
+    width: 400px;
+    height: 400px;
+    
+}
+
+#minimenu{
+    background-image: linear-gradient(#15EB72 , #4ff094, #53ee96 , #a7e3c1);
+    width: 400px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.feed_direito{
+    width: 360px;
+    height: 100px;
+    background-color: #aafdce;
+    margin: 22px 0px 0px 20px;
+    border-radius: 10px 10px 10px 10px;
+    border-bottom: 4px solid #ffffff;
+    display: flex;
+    
+}
+
+.imgfeed{
+    width: 130px;
+    height: 100px;
+    border-radius: 10px;
+}
+
+.textofeed{
+    width: 210px;
+    height: 0px;
+    margin: 30px 0px 0px 10px;
+    text-align: center;
+    font-weight: bold;
+    font-size: 13px;
+    color: rgb(101, 101, 101);
+}
+
+#abagamer{
+    background-color: #3beb87;
+    width:400px;
+    height: 800px;
+    margin-top: 22px;
+}
+
+#nprincipalgamerimg{
+    width: 400px;
+    height: 200px;
+}
+
+
+#masterkey{
+    width: 400px;
+    height: 200px;
+    border-radius: 0px 5px 0px 0px;
+}
+
+#nprincipalgamer{
+    background-color: white;
+    width: 390px;
+    height: 85px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: bold;
+    padding: 15px 5px 0px 5px;
+    margin-bottom: 20px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+
+
+.faixaesmeralda{
+    background-color: #16d569;
+    width: 295px;
+    height: 40px;
+    color: white;
+    font-size: 1.5em;
+    font-weight: 900;
+    padding: 0px 0px 0px 100px;
+    border: 3px dashed white;
+}
+
+li{
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 30px;
+    color: rgb(21, 21, 21);
+    font-size: 1.1em;
+}
+
+.listan{
+    margin: 30px 0px 0px 0px;
+}
+
+#abapodcast{
+    background-color: purple;
+    width: 400px;
+    height: 900px;
+    border-radius: 10px 10px 10px 10px;
+}
+
+#podcastimg{
+    width: 400px;
+    height: 300px;
+}
+
+#xp{
+    font-size: 1.5em;
+    font-weight: bold;
+    font-style: italic;
+    text-align: center;
+    padding: 0px 10px 0px 10px;
+}
+
+#faixaroxa{
+    background-color: rgb(190, 11, 190);
+    width: 345px;
+    height: 50px;
+    color: white;
+    font-size: 1.6em;
+    font-weight: 900;
+    padding: 10px 0px 0px 50px;
+    border-radius: 7px 7px 0px 0px;
+    border: 3px dashed white;
+}
+
+
+
+/* Lado de Baixo */
+
+footer{
+    width: 1210px;
+    height: 200px;
+    text-align: center;
+    background-color: black;
+}
+
+
+
+/* Cores
+ #AFEB15 = verde limao
+ #15EB2A = verde claro
+ #53EB14 = verde folha ou grama
+ #EBE215 = verde amarelado
+ #15EB72 = azul esverdeado
+ #8CEB63 = verde pastel claro
+
+
+ Add emojis na barra esmeralda
+
+*/

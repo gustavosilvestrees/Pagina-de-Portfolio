@@ -1,0 +1,469 @@
+/* Variáveis de Cores (Sistema de Temas) */
+:root {
+    --bg-color: #0F172A;
+    --surface-color: #1E293B;
+    --text-main: #F0F9FF;
+    --text-sub: #94A3B8;
+    
+    /* Cores de Verão Vibrantes */
+    --teal-pool: #2AF598;
+    --mango-sunset: #FF9A00;
+    --dragonfruit: #FF006E;
+    --neon-purple: #8338EC;
+
+    /* As variáveis são preenchidas pelo JS, mas definimos os fallbacks aqui */
+    --table-btn-bg: transparent;
+    --table-btn-border: currentColor;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* Layout do Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--surface-color);
+    margin-bottom: 40px;
+}
+
+.logo { font-weight: bold; font-size: 1.5rem; }
+.logo span { 
+    color: var(--accent-color) !important; 
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+}
+
+/* Card Principal do Timer */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+
+/* Layout Flex para Timer + Medidas */
+.main-layout {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 30px;
+}
+
+
+.timer-card {
+    background: var(--surface-color);
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    margin-bottom: 30px;
+    flex: 2;
+}
+
+/* Garante que o Card tenha contraste */
+.timer-card, .history-container, .measurement-chart {
+    background: var(--surface-color) !important;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+#display-timer {
+    font-size: 5rem;
+    font-weight: 800;
+    margin: 20px 0;
+    color: var(--timer-color) !important; /* Agora segue o JS */
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    font-family: consolas, monospace;
+}
+
+#current-time{
+    font-size: 1.5rem;
+    color: var(--text-sub);
+}
+
+span#status-text{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+span#status-text div{
+    width:20px;
+    height: 20px;
+    background-color: green;
+    border-radius: 50px;
+    margin-left: 10px;
+}
+
+/* Lista de Medidas */
+.measurement-chart {
+    flex: 1;
+    background: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 20px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.measurement-chart h3 { margin-bottom: 15px; color: var(--bg-color); }
+
+.measurement-chart ul { list-style: none; }
+
+.measurement-chart li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.box { width: 15px; height: 15px; border-radius: 3px; }
+.red { background: #ff4d4d; }
+.yellow { background: #ffd700; }
+.green { background: #2ecc71; }
+.blue { background: #3498db; }
+.purple { background: #9b59b6; }
+
+
+/* Botão e Menu de Temas */
+.theme-selector {
+    position: relative;
+    display: inline-block;
+}
+
+#theme-btn {
+    background: var(--surface-color);
+    border: 1px solid var(--text-sub);
+    padding: 8px;
+    font-size: 1.2rem;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.theme-options {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background: var(--surface-color);
+    padding: 10px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+    display: flex;
+    gap: 10px;
+    z-index: 100;
+}
+
+.theme-dot {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+/* Cores das bolinhas no menu */
+.default { background-color: #0F172A; }
+.energy { background-color: #FF006E; }
+.calm { background-color: #2AF598; }
+
+.hidden { display: none !important; } /* Classe para esconder o menu de temas */
+
+/* Transição Global para todos os elementos */
+body, .timer-card, .history-container, button, header, td, th {
+    transition: background-color 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+}
+
+.theme-options {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--surface-color);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    width: 280px; /* Menu bem largo */
+    max-height: 450px;
+    overflow-y: auto; /* Scroll se tiver muitas cores */
+    display: flex;
+    flex-direction: column; /* Estilo Lista */
+    gap: 15px;
+    z-index: 1000;
+}
+
+.theme-section h4 {
+    margin-bottom: 10px;
+    color: var(--text-sub);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    padding-bottom: 5px;
+}
+
+.theme-row {
+    display: flex;
+    flex-direction: column; /* Uma cor embaixo da outra */
+    gap: 8px;
+}
+
+/* Bolinha de Cor (Tamanho aumentado para evitar o bug) */
+.theme-dot {
+    width: 100%; /* Ocupa a largura da lista */
+    height: 35px; /* Altura fixa confortável */
+    border-radius: 8px; /* Formato de pílula/botão */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    transition: transform 0.2s ease, filter 0.2s ease;
+    border: 1px solid rgba(255,255,255,0.05);
+}
+
+.theme-dot span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: white; /* Texto sempre visível dentro da cor */
+    pointer-events: none; /* Evita que o texto interfira no hover da div */
+}
+
+/* Efeito Hover Estável */
+.theme-dot:hover {
+    transform: scale(1.03); /* Aumenta levemente sem quebrar o layout */
+    filter: brightness(1.2);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.theme-dot:hover span {
+    font-size: 0.7rem; /* Mostra o nome da cor */
+}
+
+/* Ajuste para o modo claro no menu */
+.light-dot span {
+    color: #1a1a1a; /* Texto escuro para as bolinhas do modo claro */
+}
+
+
+/* Status Dots */
+#status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    transition: background 0.3s;
+}
+
+/* Status Dots */
+#status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+    transition: background 0.3s;
+}
+
+/* Gráfico */
+.chart-section { margin-top: 30px; padding: 30px; }
+
+/* Botão Editar na Tabela */
+.btn-edit-row {
+    background: transparent;
+    color: var(--teal-pool);
+    border: 1px solid var(--teal-pool);
+    padding: 5px 10px;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+
+/* Botões Estilo Verão */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 12px;
+    font-weight: bold;
+    transition: transform 0.2s, filter 0.2s;
+}
+
+button:active { transform: scale(0.95); }
+
+.btn-start { 
+    background: var(--timer-color) !important; 
+    color: var(--bg-color) !important;
+    
+}
+
+
+
+.btn-stop {
+    background: linear-gradient(45deg, var(--dragonfruit), var(--neon-purple));
+    color: white;
+
+}
+
+
+
+/* Diário de Estudos */
+#study-notes {
+    width: 100%;
+    min-height: 100px; /* Altura mínima */
+    max-height: 400px; /* Altura máxima para não quebrar o layout */
+    resize: vertical;  /* Permite redimensionar apenas para cima e para baixo */
+    overflow-y: auto;  /* Adiciona scroll se o texto for maior que a caixa */
+    margin-top: 20px;
+    background: var(--bg-color);
+    border: 1px solid var(--text-sub);
+    border-radius: 10px;
+    color: white;
+    padding: 15px;
+    resize: none;
+}
+
+.btn-clear {
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid var(--dragonfruit); /* Aquele rosa vibrante */
+    color: var(--dragonfruit);
+    border-radius: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-clear:hover {
+    background: var(--dragonfruit);
+    color: white;
+    box-shadow: 0 0 15px var(--dragonfruit);
+}
+
+/* Botões da Tabela (Editar e Lixeira) - Estilo Invertido */
+.btn-edit-row, .btn-delete-row {
+    background-color: var(--table-btn-bg) !important;
+    border: 2px solid var(--table-btn-border) !important;
+    color: var(--text-main) !important;
+    backdrop-filter: blur(4px); /* Efeito moderno */
+}
+
+/* Hover nos botões da tabela para feedback */
+.btn-edit-row:hover, .btn-delete-row:hover {
+    background-color: var(--table-btn-border) !important;
+    color: white !important;
+}
+
+
+.hidden {  /* mantem conteudo exclusivo */
+    display: none;
+    opacity: 0;
+}
+
+/* Criamos uma classe para mostrar com animação */
+.show-area {
+    display: block !important; /* O !important serve para garantir que essa regra vença o display: none da classe anterior. */
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn { /* Animação de Fade In */
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Tabela de Histórico */
+.history-container {
+    background: var(--surface-color);
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10%; /* Espaçamento de 10% entre os elementos */
+}
+
+.btn-secondary {
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid var(--neon-purple);
+    color: var(--neon-purple);
+    border-radius: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background: var(--neon-purple);
+    color: white;
+    box-shadow: 0 0 15px var(--neon-purple);
+}
+
+/* Botão de Pausa específico (Texto em contraste) */
+.btn-pause {
+    filter: saturate(1.2);
+    width: 180px;
+}
+
+
+
+.btn-start, .btn-pause, .btn-stop {
+    background: var(--btn-gradient) !important;
+    border: 2px solid var(--accent-color) !important;
+    color: var(--text-main) !important; /* Branco no Dark, Escuro no Light */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 20px;
+    border-radius: 50px;
+    font-size: 1.2em;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.btn-start:hover , .btn-pause:hover , .btn-stop:hover {
+    scale: 1.05;
+    transition: all 0.5s ease-in-out;
+}
+
+#theme-menu::-webkit-scrollbar {
+  width: 8px;
+}
+#theme-menu::-webkit-scrollbar-track {
+  background: var(--timer-color);
+}
+#theme-menu::-webkit-scrollbar-thumb {
+  background: #ecececb5;
+}
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th { 
+    text-align: left; 
+    color: var(--text-sub); 
+    padding: 10px; 
+}
+
+td { 
+    padding: 15px 10px; 
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    max-width: 300px; /* Limita a largura da célula */
+    white-space: nowrap; /* Impede que o texto quebre linha dentro da célula */
+    overflow: hidden; /* Esconde o que sobrar */
+    text-overflow: ellipsis; /* Força os 3 pontos via CSS também, por segurança */
+ }
+
+.hidden { display: none; }

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <title id="tituloPersonalizado">Fit Club</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="slider.css">
+    ]<link rel="stylesheet" type="text/css" href="media.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rowdies:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="icones/fontawesome/css/all.css" rel="stylesheet">
+    <link rel="shortcut icon" href="icones/musculo.ico" type="image/x-icon">
+    
+  </head>
+  
+  <body>
+      <main>
+        <div id="logo">
+          <p class="fraseIcon">Fit Club</p>
+          <p class="fraseLogo">"Seja o herói da sua jornada"</p>
+        </div>
+        
+        <header>
+          <nav class="navBar">
+            <div class="navList">
+              <ul>
+                  <li class="navItem"><a href="#" class="navLink">Whey</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Pré-Treino</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Vitaminas</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Proteinas</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Termogenicos</a></li>
+              </ul>
+            </div>
+            
+           <div class="loginButton">
+                  <button><a href="#">Entrar</a></button> 
+                </div>
+
+   
+          </nav>
+              <div class="mobileMenuIcon">
+              <i class="fa-solid fa-bars"></i>
+              </div> 
+          
+                
+                <div class="menuMobile">
+                 <ul>
+                  <li class="navItem"><a href="#" class="navLink">Whey</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Pré-Treino</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Vitaminas</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Proteinas</a></li>
+                  <li class="navItem"><a href="#" class="navLink">Termogenicos</a></li>
+                 </ul>
+                 
+                 <div class="loginButton2">
+                  <button><a href="#">Entrar</a></button>
+                </div>
+                
+                </div>
+                
+                </div>
+        </header>
+
+        <!-- SLIDER -->
+        
+        <section class="slider"> <!-- FAZ A COMUNICAÇÃO ENTRE CSS E O JAVASCRIPT-->
+          <div class="sliderContent">
+            <input type="radio" name="btn-radio" id="radio1">
+            <input type="radio" name="btn-radio" id="radio2">
+            <input type="radio" name="btn-radio" id="radio3">
+
+            <div class="slide-box primeiro"> <!-- Essa div tem 2 classes SLIDE-BOX e PRIMEIRO-->
+              <div class="fotoDesktop1 desktop">
+                <div class="textImgAlign">
+                  <p class="textImg">Funcionamos de Segunda a Domingo das 6h as 23h30!</p>
+                  <p class="textImg">Venha fazer uma aula experimental!</p>
+                </div>
+              </div>
+
+              <div class="fotoMobile1 mobal">
+                <div class="textImgAlign">
+                  <p class="textImgMobal">Funcionamos de Segunda a Domingo das 6h as 23h30!</p>
+                  <p class="textImgMobal">Venha fazer uma aula experimental!</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-box"> 
+              <div class="fotoDesktop2 desktop">
+                <div class="textImgAlign">
+                  <p class="textImg">Musculação e Cardio - TODOS OS DIAS! </p>
+                  <p class="textImg">Jiu-jitsu e Muay Thai - Ter, Qui e Sab </p>
+                </div>
+              </div>
+              <div class="fotoMobile2 mobal">
+                  <div class="textImgAlign">
+                  <p class="textImgMobal">Musculação e Cardio - TODOS OS DIAS! </p>
+                  <p class="textImgMobal">Jiu-jitsu e Muay Thai - Ter, Qui e Sab </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="slide-box">
+              <div class="fotoDesktop3 desktop">
+                <div class="textImgAlign">
+                  <p class="textImg">Pilates e Funcional - Seg, Qua e Sex</p>
+                  <p class="textImg">Zumba e Jump - Terça, Qui e Sex</p>
+                </div>
+              </div>
+              <div class="fotoMobile3 mobal">                
+                <div class="textImgAlign">
+                  <p class="textImgMobal">Pilates e Funcional - Seg, Qua e Sex</p>
+                  <p class="textImgMobal">Zumba e Jump - Terça, Qui e Sex</p>
+                </div></div>
+            </div>
+
+            <div class="navAuto"><!-- Navegação Automática onde os radios vão mudar automaticamente -->
+              <div class="auto-btn1"></div>
+              <div class="auto-btn2"></div>
+              <div class="auto-btn3"></div>
+            </div>
+
+            <div class="navManual"> <!-- Navegação Manual onde o usuário vai clicar nos radios-->
+              <label for="radio1" class="manual-btn"></label>
+              <label for="radio2" class="manual-btn"></label>
+              <label for="radio3" class="manual-btn"></label> <!-- Os labels fazem referencia entre os inputs e apontam para eles que são os botoes radios -->
+            </div>
+
+          </div>
+        </section>
+
+
+        
+        
+        <p class="textocentro">Escolha um dos nossos planos e turbine o seu shape!</p>
+        
+        <div id="containerprincipal">
+        <div class="planos">
+          <p class="tituloP">Plano Smart</p>
+          <p class="descricaoP">Tenha acesso à nossa sala de musculação e aulas coletivas básicas. Flexibilidade e ótimo custo-benefício para iniciar sua jornada fitness. Invista em sua saúde agora!</p>
+          <div class="preco">
+            <p class="preco1">A PARTIR DE</p>
+            <p class="preco2">R$59,90 *</p>
+            <p class="preco3"><strong>por 3 meses</strong>, depois 99,90</p>
+          </div>
+          <div id="container2">
+          <p class="fidelidadePlano">12 meses de fidelidade</p>
+          <input class="botaoPlano" type="button" value="Contratar Agora" />
+          </div>
+        </div>
+        <div class="planos"> <p class="tituloP">Plano Fit</p>
+          <p class="descricaoP">Todas as aulas coletivas (incluindo as mais avançadas) e acompanhamento de nossos instrutores. Conte com programas personalizados e resultados mais rápidos.</p>
+          <div class="preco">
+            <p class="preco1">A PARTIR DE</p>
+            <p class="preco2">R$149,90 *</p>
+            <p class="preco3"><strong>por 3 meses</strong>, depois 189,90</p>
+          </div>
+          <div id="container2">
+          <p class="fidelidadePlano">12 meses de fidelidade</p>
+          <input class="botaoPlano" type="button" value="Contratar Agora" />
+          </div></div>
+        <div class="planos"> <p class="tituloP">Plano Black</p>
+          <p class="descricaoP">A experiência completa e exclusiva! Desfrute de avaliações físicas mensal, acesso ilimitado à área VIP, descontos em serviços parceiros e horários flexíveis.</p>
+          <div class="preco">
+            <p class="preco1">A PARTIR DE</p>
+            <p class="preco2">R$99,90 *</p>
+            <p class="preco3"><strong>por 3 meses</strong>, depois 189,90</p>
+          </div>
+          <div id="container2">
+          <p class="fidelidadePlano">12 meses de fidelidade</p>
+          <input class="botaoPlano" type="button" value="Contratar Agora" />
+          </div></div>
+        </div>
+        
+        <div id="ofertasPrincipal">
+        <div class="caixaEsquerda">
+          <div class="produtoImg"><img class="tamanhoImg" src="whey1.png" alt=""></div>
+          <div class="legendaImg"><strong>Whey 100% Original</strong><br> Proteína de alto valor biológico. Recuperação muscular e ganho de massa magra. Sem aditivos"</div>
+        </div>
+        
+        <div class="caixaDireita">
+        <div class="produtoImg"><img class="tamanhoImg" src="whey2.png" alt=""></div>
+        <div class="legendaImg"><strong>Whey Turbinado</strong><br>"Proteínas e carboidratos para energia e força. Supere seus limites, resultados impressionantes."</div>
+        </div>
+        
+        </div>
+        
+        <footer>
+          <div id="xzinho">x</div>
+          <div id="entreContato">
+              <div id="alinhamentoCon1">
+                
+                <p>Cadastre o seu email e receba promoções exclusivas da Fit Club!</p>
+               
+                
+             </div>
+            
+             <div id="alinhamentoCon2">
+                <input type="text" name="Email" id="textBox" placeholder="Digite Aqui o seu Email">
+
+                <input id="textButton" type="button" value="Enviar">
+             </div>
+          </div>
+          
+          
+          <div id="forLogo"></div>
+          <div id="colecao">
+            <div class="certificado"><img class="imgcertificado" src="selos/anvisa.png" alt=""></div>
+            <div class="certificado"><img class="imgcertificado" src="selos/cashback.png" alt=""></div>
+            <div class="certificado"><img class="imgcertificado" src="selos/garantia30.png" alt=""></div>
+            <div class="certificado"><img class="imgcertificado" src="selos/Organico.png" alt=""></div>
+            <div class="certificado"><img class="imgcertificado" src="selos/original100.png" alt=""></div>
+            <div class="certificado"><img class="imgcertificado" src="selos/reclameaqui.png" alt=""></div>
+            <div class="certificado"><img class="imgcertificado" src="selos/siteseguro.png" alt=""></div>
+          </div>
+
+          <div class="notaSite">
+            <p class="notaFont1">Nota média da Loja</p>
+            <div class="alinhamentoN">
+              <p class="notaFont2">4.8/5</p>
+              <p id="star">⭐⭐⭐⭐⭐</p>
+              <img id="selo" src="selo.png" alt="">
+            </div> 
+          </div>
+            
+            
+            
+         <div id="colecao2">
+            <div class="certificado2">
+              <img class="simboloProduct" src="icones/pill.png" alt="">
+              <img class="imgProduct" src="topicosProdutos/S1.png" alt="">
+              <p class="simboloText">Suplementos</p>
+            </div>
+
+            <div class="certificado2">
+              <img class="simboloProduct" src="icones/plant.png" alt="">
+              <img class="imgcertificado" src="" alt=""><img class="imgProduct" src="topicosProdutos/S2.png" alt="">
+              <p class="simboloText2">Creatina</p>
+            </div>
+
+            <div class="certificado2">
+              <img class="simboloProduct" src="icones/thunder.png" alt="">
+              <img class="imgcertificado" src="" alt=""><img class="imgProduct" src="topicosProdutos/S3.png" alt="">
+              <p class="simboloText Product1">Pré-Treino</p>
+            </div>
+
+            <div class="certificado2">
+              <img class="simboloProduct" src="icones/whey.png" alt="">
+              <img class="imgcertificado" src="" alt=""><img class="imgProduct" src="topicosProdutos/S4.png" alt="">
+              <p class="simboloText Product1">Vitaminas</p>
+            </div>
+
+            <div class="certificado2">
+              <img class="simboloProduct" src="icones/pill2.png" alt="">
+              <img class="imgcertificado" src="" alt=""><img class="imgProduct" src="topicosProdutos/S5.png" alt="">
+              <p class="simboloText">Aminoácidos</p>
+            </div>
+         
+          </div>
+
+          <div id="logo2"><p class="fraseIcon">Fit Club</p></div>
+
+
+          <section id="infoContato">
+            <div class="formas">
+              <div id="alinhamentoIcon">
+             <p class="formaFont2">Formas de pagamento:</p>
+               <div class="icon0"><img src="pagamentos/master.png" alt=""></div>
+               <div class="icon0"><img src="pagamentos/picpay.png" alt=""></div>
+               <div class="icon0"><img src="pagamentos/pix.png" alt=""></div>
+               <div class="icon0"><img src="pagamentos/caixa.png" alt=""></div>
+             </div>
+            </div>
+            
+            <div class="barraCinza"></div>
+            
+             <div class="formas">
+              <div id="alinhamentoIcon">
+               <p class="formaFont2">Siga-nos nas nossas redes:</p>
+               <div class="icon"><i class="fa-brands fa-facebook-f"></i></div>
+               <div class="icon"><i class="fa-brands fa-instagram"></i></div>
+               <div class="icon"><i class="fa-brands fa-tiktok"></i></div>
+               <div class="icon"><i class="fa-brands fa-x-twitter"></i></div>
+               <div class="icon"><i class="fa-brands fa-telegram"></i></div>
+               <div class="icon"><i class="fa-brands fa-youtube"></i></div>
+              </div>
+            </div>
+
+            <div class="barraCinza"></div>
+
+            <div class="formas">
+              <div id="alinhamentoIcon">
+               <div class="icon2"><i class="fa-solid fa-phone-volume"></i></div>
+               <p class="formaFont2">Telefone: (XX)XXXX-XXXX</p>
+              </div>
+            </div>
+
+            <div class="barraCinza"></div>
+
+            <div class="formas">
+              <div id="alinhamentoIcon">
+               <div class="icon2"><i class="fa-solid fa-envelope-circle-check"></i></div>
+               <p class="formaFont2">E-mail: generico@email.com</p>
+              </div>
+            </div>
+            
+            <div class="barraCinza"></div>
+
+            <div class="formas">
+              <div id="alinhamentoIcon">
+               <div class="icon2"><i class="fa-solid fa-map-location-dot"></i></div>
+               <p class="formaFont2">Rua N, 248 - CEP: 0000000 - São Paulo (SP)</p>
+              </div>
+            </div>
+
+            
+           </div>
+          </section>
+
+        </footer>
+      </main>
+  </body>
+  <script src="script.js" defer></script> <!-- O defer carrega o arquivo JavaScript somente quando o site for completamente carregado ele carrega o JavaScript depois que todo o HTML e CSS carregar-->
+</html>
+
+<!--
+  TAREFAS A FAZER:
+    Ajeitar a responsividade da landing page para funcionar em todos os tamanhos
+    
+
+-->

@@ -1,0 +1,3214 @@
+@charset "UTF-8";
+
+* {
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+body {
+    width: 100%;
+    height: 100vh;
+    background-color: #151B42;
+    overflow-x: hidden;
+}
+
+html {
+    scroll-behavior: smooth;
+    /* Garante rolagem suave a pagina ao clicar nos buttons do menu */
+}
+
+
+
+/* FONTES */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+@font-face {
+    font-family: "JetBrain Mono";
+    src: url(fontes/JetBrains_Mono/JetBrainsMono-Italic-VariableFont_wght.ttf);
+    src: url(fontes/JetBrains_Mono/JetBrainsMono-VariableFont_wght.ttf);
+}
+
+@font-face {
+    font-family: "Bebas Neue";
+    src: url(fontes/Bebas_Neue/BebasNeue-Regular.ttf);
+}
+
+@font-face {
+    font-family: "Montserrat";
+    src: url(fontes/Montserrat/Montserrat-VariableFont_wght.ttf);
+
+}
+
+@font-face {
+    font-family: "Consolas Mono";
+    src: url(fontes/consola_mono/ConsolaMono-Bold.ttf);
+    src: url(fontes/consola_mono/ConsolaMono-Book.ttf);
+
+}
+
+@font-face {
+    font-family: "Roboto Mono";
+    src: url(fontes/Roboto_Mono/RobotoMono-Italic-VariableFont_wght.ttf);
+    src: url(fontes/Roboto_Mono/RobotoMono-VariableFont_wght.ttf);
+
+}
+
+@font-face {
+    font-family: "Roboto Slab";
+    src: url(fontes/Roboto_Slab/RobotoSlab-VariableFont_wght.ttf);
+
+}
+
+@font-face {
+    font-family: "Futura";
+    src: url(fontes/Futura/HellasFun-Plain/HFUNB.TTF);
+    src: url(fontes/Futura/HellasFun-Plain/HFUNCB.TTF);
+    src: url(fontes/Futura/HellasFun-Plain/HFUNCP.TTF);
+    src: url(fontes/Futura/HellasFun-Plain/HFUNP.TTF);
+
+}
+
+
+
+@media (max-width: 600px) {
+    .btn-neon-audio {
+        top: 12px;
+        right: 12px;
+        padding: 6px 12px;
+        font-size: 0.75rem;
+    }
+}
+
+/* Botão Flutuante de Áudio Neon */
+.btn-neon-audio {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(10, 10, 18, 0.85);
+    border: 2px solid #00f3ff;
+    color: #00f3ff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 12px rgba(0, 243, 255, 0.5), inset 0 0 8px rgba(0, 243, 255, 0.3);
+    transition: all 0.3s ease;
+    z-index: 99999; /* Fica acima de tudo sem afetar o nav */
+    backdrop-filter: blur(5px);
+}
+
+.btn-neon-audio:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px rgba(0, 243, 255, 0.9), inset 0 0 12px rgba(0, 243, 255, 0.6);
+}
+
+/* Estado Mudo / Desligado (Vermelho Neon) */
+.btn-neon-audio:not(.playing) {
+    border-color: #ff0055;
+    color: #ff0055;
+    box-shadow: 0 0 12px rgba(255, 0, 85, 0.5), inset 0 0 8px rgba(255, 0, 85, 0.3);
+}
+
+.btn-neon-audio:not(.playing):hover {
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.9), inset 0 0 12px rgba(255, 0, 85, 0.6);
+}
+
+/* Esconde o botão de áudio enquanto o loader estiver ativo */
+#audio-toggle {
+    display: none;
+    opacity: 0;
+}
+
+/* Animação Cyber/Neon de Entrada */
+@keyframes neonEntrance {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(20px);
+        filter: blur(10px);
+    }
+    60% {
+        opacity: 1;
+        transform: scale(1.1) translateY(-5px);
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Classe aplicada pelo JS para rodar a animação */
+#audio-toggle.audio-btn-show {
+    display: flex !important;
+    animation: neonEntrance 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+
+/* Tela cheia fixa por cima de todo o site */
+#cyber-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #050505;
+  z-index: 99999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Orbitron', sans-serif;
+  overflow: hidden;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
+}
+
+/* Intensificação do Efeito Scanlines */
+.scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0) 50%,
+    rgba(0, 0, 0, 0.75) 50%
+  );
+  background-size: 100% 4px; /* Linhas horizontais bem marcadas */
+  opacity: 0.85; /* Aumentado para dar destaque ao efeito CRT */
+}
+
+.loader-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+}
+
+/* Texto da Porcentagem Neon */
+.percentage {
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: #00f3ff;
+  text-shadow: 0 0 10px #00f3ff;
+  letter-spacing: 2px;
+  margin-bottom: 15px;
+}
+
+.click-prompt {
+    font-size: 0.85rem;
+    color: #00ffcc; /* Use a cor do seu tema HUD/Cyberpunk */
+    margin-top: 15px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    animation: pulsePrompt 1.8s infinite ease-in-out;
+    transition: opacity 0.5s ease;
+}
+
+/* Animação suave para atrair o olhar sem atrapalhar */
+@keyframes pulsePrompt {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+/* Contêiner da Barra */
+.progress-bar-container {
+  width: 100%;
+  min-width: 80%;
+  height: 30px;
+  background-color: rgba(0, 243, 255, 0.1);
+  border: 1px solid #00f3ff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.3);
+  border-radius: 2px;
+  padding: 2px;
+  box-sizing: border-box;
+}
+
+/* Preenchimento Dinâmico da Barra */
+.progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background-color: #00f3ff;
+  box-shadow: 0 0 10px rgba(0, 243, 255, 0.4);
+  transition: width 0.2s ease-out;
+}
+
+/* Mensagem de Boas-Vindas (Oculta no início) */
+.welcome-message {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #00f3ff;
+  text-shadow: 0 0 12px #00f3ff;
+  margin-bottom: 15px; /* Espaçamento em relação aos elementos de baixo */
+  letter-spacing: 4px;
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(10px);
+}
+
+/* Classe ativada ao finalizar o carregamento */
+.welcome-message.show {
+  opacity: 1;
+  max-height: 100px;
+  transform: translateY(0);
+  margin-top: 20px;
+}
+
+/* Animação para esconder o loader */
+#cyber-loader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Configuração do vídeo de fundo do Loader */
+.loader-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 1;
+}
+
+/* Visibilidade do Vídeo após carregar */
+.loader-video-bg.fade-in {
+  opacity: 1;
+}
+
+.loader-video-bg.fade-out {
+  opacity: 0;
+}
+
+/* Conteúdo sobreposto ao vídeo */
+.scanlines, .loader-content {
+  z-index: 2;
+}
+
+/* Efeito Glitch/Neon Cyberpunk na Mensagem de Boas-Vindas */
+.welcome-message.cyber-glitch {
+  animation: glitch-anim 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+}
+
+@keyframes glitch-anim {
+  0% { transform: translate(0); text-shadow: -2px 2px #00f3ff, 2px -2px #ff0055; }
+  25% { transform: translate(-2px, 2px); text-shadow: 2px -2px #00f3ff, -2px 2px #ff0055; }
+  50% { transform: translate(2px, -2px); text-shadow: -2px -2px #00f3ff, 2px 2px #ff0055; }
+  75% { transform: translate(-2px, -2px); text-shadow: 2px 2px #00f3ff, -2px -2px #ff0055; }
+  100% { transform: translate(0); text-shadow: -2px 2px #00f3ff, 2px -2px #ff0055; }
+}
+
+/* Fade Out Suave para Encerrar o Loader */
+#cyber-loader.fade-out-complete {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 1.2s ease-in-out, visibility 1.2s ease-in-out;
+}
+
+/* MENU */
+
+.logoSite {
+    color: white;
+    font-size: 2em;
+    text-align: center;
+    white-space: nowrap;
+    margin-left: 20px;
+    font-family: "JetBrain Mono", Arial, Helvetica, sans-serif;
+    letter-spacing: -2px;
+
+}
+
+
+#alinhamentoNav {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 10px 20px;
+    /* Controla o espaço */
+    min-width: 0;
+    /* Controla o espaço */
+    flex-shrink: 1;
+    /* Controla o espaço */
+    overflow: hidden;
+    /* Tira rolagem */
+}
+
+#alinhamentoB {
+    display: flex;
+    gap: 10px;
+    box-sizing: border-box;
+    flex-wrap: nowrap;
+    align-items: center;
+    margin-right: 2%;
+    /* ADICIONE ISSO PARA PERMITIR ROLAGEM CASO A TELA SEJA MUITO PEQUENA */
+  
+}
+
+.botaoNav {
+    width: auto;
+    min-width: 90px;
+    height: 40px;
+    background-color: transparent;
+    font-size: 1.15em;
+    transform: scaleY(1.2);
+    border-radius: 20px;
+    color: white;
+    font-weight: bold;
+    border: none;
+    padding: 0 20px;
+    white-space: nowrap;
+    font-family: "JetBrain Mono", Arial, Helvetica, sans-serif;
+    -webkit-transform: scaleY(1.2);
+    -moz-transform: scaleY(1.2);
+    -o-transform: scaleY(1.2);
+    flex-shrink: 0;
+}
+
+.botaoNav a {
+    text-decoration: none;
+    color: white;
+}
+
+
+.botaoNav:hover {
+    cursor: pointer;
+    background-color: #0AB8D6;
+    border-radius: 20px;
+    border: none;
+    box-shadow: 0px 0px 8px whitesmoke;
+    transition: 0.5s;
+}
+
+nav#menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 80px;
+    background-color: #150027;
+    overflow: hidden;
+    border-bottom: 2px solid #28282843;
+    z-index: 3;
+}
+
+strong.strongBlue {
+    color: #0AB8D6
+}
+
+
+/* HOME PAGE  */
+
+
+#Perfil {
+    width: 100%;
+    height: 590px;
+    display: flex;
+    position: relative; /* Necessário para ancorar o vídeo interno */
+    overflow: hidden;
+    height: calc(100vh - 80px); /* Ocupa a tela cheia descontando a altura do menu */
+    
+}
+
+#Avatar {   
+    height: 100%;
+    width: clamp(40%, 40%, 42%);
+    position: relative; /* Necessário para ancorar as scanlines */
+    z-index: 2; 
+    overflow: hidden; /* Garante que as linhas do holograma não vazem da div */
+}
+
+#Avatar img {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    width: auto;
+    height: 100%;
+    
+    /* Mantém o Glow Neon, mas preserva as cores originais da imagem com uma leve transparência */
+    filter: drop-shadow(0 0 15px rgba(247, 9, 199, 0.347)) 
+            drop-shadow(0 0 5px rgba(36, 240, 255, 0.256)) 
+            drop-shadow(0 0 5px rgba(245, 32, 227, 0.297))
+            opacity(0.9); 
+    
+    /* Ativa a nova animação de flicker */
+    animation: flicker-holograma 20s step-end infinite ;
+}
+
+/* Criando as linhas de varredura (Scanlines) sobrepostas na foto */
+#Avatar::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* Padrão de linhas horizontais sutis (brancas/neutras e bem transparentes) */
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.05) 0px,
+        rgba(255, 255, 255, 0.05) 2px,
+        transparent 2px,
+        transparent 4px
+    );
+    pointer-events: none; /* Permite que os cliques passem direto pela camada */
+    z-index: 3; /* Fica acima da foto */
+    animation: scanlines-move 10s linear infinite; /* Movimenta as linhas suavemente */
+}
+
+
+/* ---------------------------------------------------
+   ANIMAÇÕES DO HOLOGRAMA (KEYFRAMES)
+--------------------------------------------------- */
+/* Animação pura de Flicker (imagem apaga e volta) */
+@keyframes flicker-holograma {
+    /* BASE 1: Vibração rápida até os 24% */
+    0%, 1%, 2%, 3%, 4%, 5%, 6%, 7%, 8%, 9%, 10%, 11%, 12%, 13%, 14%, 15%, 16%, 17%, 18%, 19%, 20%, 21%, 22%, 23%, 24% { opacity: 1; }
+    0.5%, 1.5%, 2.5%, 3.5%, 4.5%, 5.5%, 6.5%, 7.5%, 8.5%, 9.5%, 10.5%, 11.5%, 12.5%, 13.5%, 14.5%, 15.5%, 16.5%, 17.5%, 18.5%, 19.5%, 20.5%, 21.5%, 22.5%, 23.5%, 24.5% { opacity: 0.95; }
+
+    /* FLICK 1: Queda rápida e sutil aos 5 segundos (25%) */
+    24.8% { opacity: 1; }
+    25% { opacity: 0.5; }
+    25.2% { opacity: 1; }
+
+    /* BASE CONTINUAÇÃO: A vibração rápida volta e vai dos 26% até os 79.5% */
+    26%, 27%, 28%, 29%, 30%, 31%, 32%, 33%, 34%, 35%, 36%, 37%, 38%, 39%, 40%, 41%, 42%, 43%, 44%, 45%, 46%, 47%, 48%, 49%, 50%, 51%, 52%, 53%, 54%, 55%, 56%, 57%, 58%, 59%, 60%, 61%, 62%, 63%, 64%, 65%, 66%, 67%, 68%, 69%, 70%, 71%, 72%, 73%, 74%, 75%, 76%, 77%, 78%, 79% { opacity: 1; }
+    26.5%, 27.5%, 28.5%, 29.5%, 30.5%, 31.5%, 32.5%, 33.5%, 34.5%, 35.5%, 36.5%, 37.5%, 38.5%, 39.5%, 40.5%, 41.5%, 42.5%, 43.5%, 44.5%, 45.5%, 46.5%, 47.5%, 48.5%, 49.5%, 50.5%, 51.5%, 52.5%, 53.5%, 54.5%, 55.5%, 56.5%, 57.5%, 58.5%, 59.5%, 60.5%, 61.5%, 62.5%, 63.5%, 64.5%, 65.5%, 66.5%, 67.5%, 68.5%, 69.5%, 70.5%, 71.5%, 72.5%, 73.5%, 74.5%, 75.5%, 76.5%, 77.5%, 78.5%, 79.5% { opacity: 0.95; }
+
+    /* FLICK 2: Apagão duplo rápido (stutter) aos 16 segundos (80%) */
+    79.8% { opacity: 1; }
+    80% { opacity: 0.7; }   /* Primeira piscada */
+    80.2% { opacity: 1; }   /* Acende super rápido... */
+    80.4% { opacity: 0.7; } /* ...e apaga de novo instantaneamente */
+    80.6% { opacity: 1; }   /* Volta definitiva pra base */
+
+    /* BASE FINAL: Fecha o loop mantendo a vibração rápida dos 81% aos 100% */
+    81%, 82%, 83%, 84%, 85%, 86%, 87%, 88%, 89%, 90%, 91%, 92%, 93%, 94%, 95%, 96%, 97%, 98%, 99%, 100% { opacity: 1; }
+    81.5%, 82.5%, 83.5%, 84.5%, 85.5%, 86.5%, 87.5%, 88.5%, 89.5%, 90.5%, 91.5%, 92.5%, 93.5%, 94.5%, 95.5%, 96.5%, 97.5%, 98.5%, 99.5% { opacity: 0.95; }
+}
+
+/* Faz as linhas de TV subirem infinitamente */
+@keyframes scanlines-move {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 -100px; }
+}
+
+#Avatar, #quadradoBG {
+    position: relative;
+    z-index: 2; 
+}
+
+#quadradoBG {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 30px;
+    width: 52%;
+    height: 95%;
+    gap: 12px; /* Controle centralizado de espaçamento */
+    box-sizing: border-box;
+    overflow: hidden;
+    margin-top: 15px;
+}
+
+
+/* Correção dos Textos e Legendas */
+.tituloDev,
+.subDev,
+.legDev1,
+.legDev2,
+.legDiv5 {
+    transform: none !important;
+    height: auto !important; /* Elimina os espaços gigantescos */
+    margin: 0 !important;
+}
+
+
+
+#fundoForma {
+    /* Ocupa 100% do #quadradoBG */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    /* Garante que fique atrás do conteúdo do #quadradoBG */
+    overflow: hidden;
+    /* Opcional, mas útil */
+    filter: drop-shadow(0 0 8px rgba(42, 42, 42, 0.433));
+}
+
+/* Estilos para a forma Polygon (o elemento de desenho) */
+#fundoForma polygon {
+    fill: green;
+    /* Cor de fundo solicitada */
+
+}
+
+/* Opcional: Para garantir que todos os elementos de conteúdo 
+   fiquem acima do z-index: 1 do SVG. */
+#quadradoBG>.logoSite,
+#quadradoBG>.tituloDev,
+#quadradoBG>.subDev,
+#quadradoBG>.legDev1,
+#quadradoBG>.legDev2,
+#quadradoBG>.Explorar,
+#quadradoBG>.legDiv5 {
+    position: relative;
+    z-index: 3;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.635), 0px 0px 5px rgba(0, 0, 0, 0.256);
+}
+
+#fundoForma polygon {
+    fill: rgba(13, 5, 43, 0.644);
+    /* Cor de fundo solicitada */
+
+    /* ADICIONE ESTAS DUAS LINHAS PARA A BORDA */
+    stroke: rgba(123, 120, 120, 0.781);
+    /* Cor cinza para a borda */
+    stroke-width: 0.5px;
+    /* Espessura de 2px para a borda */
+}
+
+#logoSite2 {
+    color: white;
+    font-size: 1.5em;
+    text-align: left;
+    white-space: nowrap;
+    width: 35%;
+}
+
+
+.tituloDev {
+    color: white;
+    font-size: clamp(4rem, 5vw, 5rem) !important;
+    margin: 0;
+    padding: 5px 0;
+    height: 20%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    letter-spacing: -2px;
+    word-spacing: -25px;
+    font-family: "Roboto Mono", Arial, Helvetica, sans-serif;
+    
+    line-height: 1.1;
+}
+
+
+.subDev {
+
+    color: white;
+    font-size: clamp(2rem, 3.5vw, 3.5rem) !important;
+    line-height: 1.2;
+    font-weight: 600;
+    margin: 0;
+    padding: 5px 0;
+    height: 12%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    letter-spacing: -2px;
+    word-spacing: -16px;
+    font-family: "Roboto Mono", Arial, Helvetica, sans-serif;
+    
+}
+
+.legDev1 {
+    color: #FF1493;
+    font-size: clamp(1.5rem, 1.5vw, 2rem) !important;
+    font-weight: normal;
+    margin: 0;
+    padding: 0px 0;
+    margin-top: 10px;
+    height: 8%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: "Roboto Slab", Arial, Helvetica, sans-serif;
+}
+
+.legDev2 {
+
+    color: #0AB8D6;
+    font-size: clamp(0.9rem, 1vw, 1rem) !important;
+    line-height: 1.6;
+    margin: 0;
+    padding: 5px 0;
+    flex-grow: 1;
+    height: 20%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    font-family: "Roboto Slab", Arial, Helvetica, sans-serif;
+    word-spacing: 2px;
+    font-weight: 400;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.644);
+   
+}
+
+.Explorar {
+    background: linear-gradient(90deg, #0AB8D6, #00FF7F);
+    color: white;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 12px 28px !important;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    align-self: flex-start;
+    margin: 0px 0px 0px 5%;
+    transition: 0.3s;
+    width: 245px;
+    height: auto !important; /* Abandona a altura rígida de 100px */
+    letter-spacing: 1-px;
+    font-family: "Bebas Neue", Arial, Helvetica, sans-serif;
+    font-weight: 100;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.418);
+     overflow: visible; /* Garante que o brilho neon apareça */
+     position: relative;
+    z-index: 3;
+    transform-style: preserve-3d; /* Cria o contexto para camadas 3D */
+}
+
+.Explorar a{
+    color: white;
+    text-decoration: none;
+    
+}
+
+/* Camada da borda neon (Branco para Transparente) */
+.Explorar::after {
+    content: '';
+    position: absolute;
+    inset: -3px; /* Ajuste para a espessura da borda */
+    background-image: conic-gradient(from var(--angle), 
+        transparent 0%, 
+        #ffffff 5%, 
+        #ffffff 15%, 
+        transparent 20%, 
+        transparent 50%, 
+        #ffffff 55%, 
+        #ffffff 65%, 
+        transparent 70%, 
+        transparent 100%);
+    border-radius: 40px;
+    z-index: -1; /* Joga para trás do botão */
+    pointer-events: none;
+    animation: 3s spin linear infinite;
+    transform: translateZ(-1px); /* Garante que fique fisicamente atrás */
+    opacity: 0.8;
+}
+
+/* Camada de brilho (Glow) */
+.Explorar::before {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    background-image: conic-gradient(from var(--angle), 
+        transparent 0%, 
+        #ffffff 5%, 
+        #ffffff 15%, 
+        transparent 20%, 
+        transparent 50%, 
+        #ffffff 55%, 
+        #ffffff 65%, 
+        transparent 70%, 
+        transparent 100%);
+    border-radius: 40px;
+    z-index: -1;
+    pointer-events: none;
+    animation: 3s spin linear infinite;
+    filter: blur(1.5rem);
+    opacity: 0.8;
+    transform: translateZ(-1px);
+}
+
+.Explorar:hover {
+    box-shadow: 0px 0px 15px rgba(0, 255, 127, 0.5);
+    transform: scale(1.05);
+}
+
+.legDiv5 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.79);
+    font-size: clamp(0.8rem, 0.8vw, 1rem) !important;
+    margin: 0;
+    padding: 10px 10px;
+    margin-top: auto;
+    height: 10%;
+    width: 90%;
+    background-color: rgba(39, 39, 39, 0.416);
+    border-radius: 50px;
+    font-family: "JetBrain Mono", Arial, Helvetica, sans-serif;
+}
+
+.videoH{
+    position:fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 5%;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    z-index: -2; /* Enviado mais para trás de tudo */
+}
+
+.videoHome{
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.videop{
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1; /* Fica no fundo da seção Perfil */
+}
+
+.videoPerfil{
+width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#alinhamentoVPro{
+ position: fixed;
+}
+
+.videoPro{
+position: absolute; /* Mapeia o tamanho total da section #projects */
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* Fica no fundo */
+    pointer-events: none; /* Garante que o vídeo não bloqueie os cliques nos cards */
+}
+
+.videoProjects{
+position: sticky; /* Fica fixo na tela, mas só dentro do .videoPro */
+    top: 0;
+    left: 0;
+    width: 100%; /* Ocupa exatamente a largura da tela visível */
+    height: 100vh; /* Ocupa exatamente a altura da tela visível */
+    object-fit: cover; /* ESSA É A CHAVE: Preenche o espaço sem esticar/distorcer */
+    object-position: center; /* Mantém o foco do vídeo no meio */
+    /* ADICIONE ESTA LINHA ABAIXO: */
+    will-change: transform, opacity;
+}
+
+.videof{
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+    
+
+.videoFooter{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+
+
+
+
+@media screen and (max-width: 768px) {
+    .videoH {
+        height: 50vh; /* Ajusta a altura para telas menores */
+    }
+}
+
+
+/* SOBRE */
+
+
+
+#Sobre {
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    text-align: center;
+    background-color: #03040aaf;    
+}
+
+#containerSobre {
+    display: flex;
+    flex: 1;
+    gap: 10px;
+}
+
+#pesquisaFake {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 50px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    font-size: 2em;
+    font-family: consolas, Arial, Helvetica, sans-serif;
+
+}
+
+#pesquisaFake p {
+    margin: 0;
+    width: 0;
+    /* medida em numero de caracteres para a animação de digitaçao rolar */
+    color: white;
+    font-weight: bold;
+    margin-left: 30px;
+    font-weight: normal;
+    color: #0AB8D6;
+    letter-spacing: -1px;
+    border-right: 16px solid rgba(255, 0, 255, 0.897);
+    overflow: hidden;
+    animation: mark .5s step-end infinite, writeL1 7s steps(22, end) infinite;
+    background-color: transparent;
+}
+
+
+@keyframes mark {
+
+    /* Animaçao do marcardor piscando */
+    50% {
+        border-right-color: transparent;
+    }
+}
+
+@keyframes writeL1 {
+    20% {
+        width: 12.3ch;
+    }
+
+    70% {
+        width: 12.3ch;
+    }
+
+    85% {
+        width: 0;
+    }
+
+    100% {
+        width: 0;
+    }
+
+}
+
+#lupa {
+    background-color: black;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#alinhamentoAside {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    justify-content: space-between;
+}
+
+#alinhamentoSobre {
+    flex: 2;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+#textoFake1 {
+    width: 0;
+    padding: 5px 0px;
+    margin: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #0AB8D6;
+    font-weight: bold;
+    font-weight: normal;
+    font-family: consolas, Arial, Helvetica, sans-serif;
+    font-size: 1.8em;
+    border-right: 16px solid rgba(255, 0, 255, 0.897);
+    overflow: hidden;
+    animation: mark .5s step-end infinite, writeL2 10s steps(30, end) infinite;
+    white-space: nowrap;
+
+
+}
+
+
+@keyframes writeL2 {
+    20% {
+        width: 27.8ch;
+    }
+
+    70% {
+        width: 27.8ch;
+    }
+
+    85% {
+        width: 0;
+    }
+
+    100% {
+        width: 0;
+    }
+
+}
+
+#textoFake2 {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    color: #0AB8D6;
+    font-weight: bold;
+    font-size: 1.5em;
+    font-weight: normal;
+    word-spacing: -8px;
+    text-shadow: none;
+    font-family: consolas, Arial, Helvetica, sans-serif;
+
+
+
+}
+
+#textoFake2 p {
+    width: 0;
+    border-right: 16px solid rgba(255, 0, 255, 0.897);
+    overflow: hidden;
+    animation: mark .5s step-end infinite, writeL3 8s steps(22, end) infinite;
+    white-space: nowrap;
+}
+
+@keyframes writeL3 {
+    20% {
+        width: 15.5ch;
+    }
+
+    70% {
+        width: 15.5ch;
+    }
+
+    85% {
+        width: 0;
+    }
+
+    100% {
+        width: 0;
+    }
+
+}
+
+#textoSobre {
+    width: 100%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    color: white;
+    font-size: 1em;
+    line-height: 1.6;
+    flex-direction: column;
+    gap: 10px;
+    overflow-y: auto;
+    text-shadow: 1px 1px 2px black;
+    text-align: justify;
+    font-family: "JetBrain Mono", Arial, Helvetica, sans-serif;
+}
+
+#textoSobre p {
+    margin-bottom: 20px;
+}
+
+#asideSobre {
+    width: 45%;
+    padding: 15px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;   /* Alinha o avatar e a barra verticalmente */
+    align-items: center;       /* Centraliza horizontalmente no container */
+    justify-content: center;   /* Centraliza verticalmente no container */
+    gap: 25px;                 /* Cria um espaçamento seguro para não vazar do elemento */
+}
+
+
+
+#eu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; /* Necessário para o brilho de fundo */
+    z-index: 1;
+}
+
+/* A imagem que vai flutuar */
+#eu img {
+    width: 500px;
+    height: auto;
+    /* Nome da animação | Duração (9s) | Suavidade | Infinita */
+    animation: flutuar 7s ease-in-out infinite;
+}
+
+/* Definição do movimento */
+@keyframes flutuar {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-25px); /* Sobe 25 pixels */
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+
+/* Brilho suave fixo atrás do avatar */
+#eu::before {
+    content: '';
+    position: absolute;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0, 212, 255, 0.3) 0%, transparent 70%);
+    filter: blur(40px);
+    z-index: -1; /* Garante que fique atrás de você */
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Centraliza perfeitamente */
+}
+
+
+/* Container do Idioma Estilo Hacker */
+.info-idioma {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 350px;          /* DEIXA MAIS FECHADO: Reduzido de 400px para 290px */
+    position: relative;
+    padding: 20px 10px;        /* MAIS PERTO DO TEXTO: Diminuído para colar a borda nos elementos */
+    text-align: center;
+    background: transparent;
+    border: none;
+}
+
+/* CONFIGURAÇÃO DO SVG E DO BRILHO */
+.fundo-hud-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    filter: drop-shadow(0 0 12px rgba(0, 255, 0, 0.6)); /* Brilho neon reforçado */
+}
+
+/* O SEGREDO DA BORDA PERFEITA DE 3PX */
+.fundo-hud-svg polygon {
+    fill: rgba(0, 0, 0, 0.7);  /* Fundo escuro e semi-transparente como querias */
+    stroke: #00ff00;            /* Cor verde neon */
+    stroke-width: 3px;         /* ENGROSSADO PARA 3PX */
+    vector-effect: non-scaling-stroke; /* IMPEDE A DISTORÇÃO: A borda fica uniforme em toda a volta! */
+}
+
+/* Título com Fonte Monoespaçada e Brilho Neon */
+.info-idioma .idioma-titulo {
+    font-family: "JetBrain Mono", "Consolas Mono", monospace;
+    font-size: 1.1rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: #00ff00;            /* Verde Neon Puro */
+    text-shadow: 0 0 8px rgba(0, 255, 0, 0.8); /* Efeito Glow de tela */
+    margin: 0 0 12px 0;
+}
+
+/* GARANTIR QUE O TEXTO E OS BLOCOS FICAM À FRENTE */
+.info-idioma .idioma-titulo,
+.info-idioma .barra-blocos {
+    position: relative;
+    z-index: 1;                 /* Passa para a frente do SVG */
+}
+
+/* Alinhamento dos Quadradinhos */
+.barra-blocos {
+    padding: 5px 5px;
+    display: flex;
+    justify-content: center;
+    gap: 3px;                  /* Distância milimétrica entre os blocos */
+    width: 80%;
+    border: 4px solid #00ff00;
+    border-radius: 8px;
+}
+
+/* O formato base de cada quadrado */
+.barra-blocos .bloco {
+    width: 25px;
+    height: 40px;
+    background: rgba(0, 255, 0, 0.05); /* Quadrado vazio apagado */
+    border: 1px solid rgba(0, 255, 0, 0.25);
+    border-radius: 1px;
+    box-sizing: border-box;
+}
+
+/* Quadrados Ativos (Preenchidos com Glow intenso) */
+.barra-blocos .bloco.preenchido {
+    background: #00ff00;       /* Preenchimento total em verde hacker */
+    border-color: #00ff00;
+    box-shadow: 0 0 6px #00ff00, 0 0 12px rgba(0, 255, 0, 0.6);
+}
+
+/* ------------------ SEÇÃO SOFT SKILLS & OUTROS CONHECIMENTOS ------------------ */
+
+#softSkills {
+    margin: 60px auto;
+    padding: 40px 20px;
+    max-width: 1400px;
+    background: rgba(12, 6, 10, 0.712);
+    border-top: 1px solid rgba(0, 255, 0, 0.2);
+    border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+    border-radius: 8px;
+}
+
+/* Grid que divide as duas colunas */
+.soft-skills-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    gap: 20px;
+}
+
+/* Colunas individuais */
+.soft-skills-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Títulos de cada coluna */
+.soft-skills-col h2 {
+    font-family: "Futura", Arial, Helvetica, sans-serif;
+    font-size: 2.2rem; 
+    color: #fff;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 4px rgb(194, 194, 194);
+}
+
+/* BARRA BRANCA DIVISÓRIA (Sem brilho/neon) */
+.barra-branca-divisoria {
+    width: 2px;
+    background-color: #ffffff;
+    align-self: stretch; /* Estica a barra preenchendo a altura do container */
+    margin: 0 10px;
+    opacity: 0.8;
+}
+
+/* CONTAINER DAS SKILLS */
+.container-soft {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 10px;
+}
+
+/* DIVS DAS SKILLS */
+.soft-skill-div {
+    background: rgba(0, 255, 255, 0.05);
+    border: 1px solid rgba(0, 255, 255, 0.3);
+    color: #00ffff;
+    padding: 12px 20px; 
+    font-size: 1rem;
+    border-radius: 6px;
+    font-family: 'JetBrain Mono', monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    cursor: default;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Efeito Hover */
+.soft-skill-div:hover {
+    background: rgba(255, 119, 255, 0.15);
+    box-shadow: 0 0 15px rgba(255, 119, 255, 0.4);
+    border-color: rgba(255, 119, 255, 0.6);
+    color: #ff77ff;
+    transform: translateY(-2px);
+}
+
+/* Responsividade para telas menores (Celulares) */
+@media screen and (max-width: 900px) {
+    .soft-skills-grid {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .barra-branca-divisoria {
+        width: 80%;
+        height: 2px;
+        margin: 30px 0;
+    }
+}
+
+
+
+/* TECNOLOGIAS  */
+
+
+
+
+
+#techSkills {
+    width: 100%;
+    padding: 30px 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.443);
+}
+
+#techSkills h1 {
+    text-align: center;
+    color: white;
+    font-size: 2em;
+    margin: 0 0 30px 0;
+    text-shadow: 1px 1px 4px rgb(194, 194, 194);
+    font-family: "Futura", Arial, Helvetica, sans-serif;
+    font-size: 3em;
+}
+
+#alinhamentoTech {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.col {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+    align-items: center;
+}
+
+.col h2 {
+    color: white;
+    font-family: "Futura", Arial, Helvetica, sans-serif;
+    font-size: 2em;
+    margin: 30px 0px;
+}
+
+.hexagono-container {
+    /* NOVO: TAMANHO AJUSTADO PARA HARMONIA COM A COLUNA (100px de largura é adequado para um min-width de 200px) */
+    width: 160px;
+    /* Altura proporcional ao viewBox="0 0 100 115" para manter a forma correta do hexágono */
+    height: 175px;
+
+    /* Garante que o container se comporte como um bloco */
+    display: block;
+}
+
+.hexagono-svg {
+    width: 100%;
+    height: 100%;
+    /* Pode ser necessário um display: block aqui se houver problemas de alinhamento */
+    display: block;
+}
+
+.hexagono-wrapper {
+    position: relative;
+    width: 160px;
+    /* Tamanho original que queres manter */
+    height: 180px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.hexagono-wrapper:hover {
+    transition: 0.5s ease-in-out;
+    scale: 1.10;
+}
+
+.hexagono-wrapper:hover .hex-border {
+    opacity: 1;
+    stroke-width: 4px;
+    filter: drop-shadow(0 0 8px currentColor) drop-shadow(0 0 20px currentColor);
+
+}
+
+.hexagono-svg-base {
+    width: 100%;
+    /* Faz o SVG ocupar os 160px definidos no wrapper */
+    height: 100%;
+    overflow: visible;
+    /* Garante que o brilho (glow) não seja cortado */
+}
+
+.hex-glass {
+    /* Um preenchimento levemente mais claro e azulado para não sumir no preto */
+    fill: rgba(255, 255, 255, 0.08);
+
+    /* O segredo: adicione um drop-shadow interno ou brilho */
+    filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.1));
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.hex-border {
+    fill: none;
+    /* Garante que o meio seja vazio */
+    stroke-width: 8px;
+    /* Espessura da linha neon */
+
+    /* ARREDONDAMENTO DO TRAÇADO */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    /* Transição suave para o hover */
+    transition: all 0.3s ease;
+    opacity: 0.7;
+}
+
+.hex-border-blend {
+    fill: none;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+/* Opcional: Para evitar quebras de layout, adicione isto ao corpo do polígono */
+.hexagono-svg polygon {
+    fill: #404f9389;
+
+    /* ADICIONANDO BORDA PARA VISUALIZAR O ARREDONDAMENTO */
+    stroke: rgba(255, 0, 255, 0.856);
+    /* Borda branca para contraste */
+    stroke-width: 6px;
+    /* Espessura da borda */
+
+    /* NOVO: PROPRIEDADE PARA ARREDONDAR OS CANTOS DA BORDA */
+    stroke-linejoin: round;
+}
+
+.hex-glass {
+    /* Gradiente para simular a espessura do vidro */
+    fill: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
+
+    /* Ativa o desfoque do fundo (Glassmorfismo) */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    /* Importante: a cor base no SVG deve ser controlada pelo CSS ou pelo atributo fill */
+}
+
+
+/* Adicionando um reflexo de luz extra no topo (opcional para mais realismo) */
+.hexagono-wrapper::before {
+    content: '';
+    position: absolute;
+    left: 5px;
+    top: 20px;
+    /* Mais perto da ponta superior */
+    width: 120px;
+    height: 140px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.263) 0%, transparent 70%);
+    z-index: 3;
+    pointer-events: none;
+    filter: blur(1px);
+}
+
+.hexagono-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 0px;
+    /* Mais perto da ponta superior */
+    width: 120px;
+    height: 130px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.134) 0%, transparent 70%);
+    z-index: 3;
+    pointer-events: none;
+    filter: blur(1px);
+}
+
+/* Borda de Fundo: Aqua com brilho expandido */
+.aqua-base {
+    stroke: #00ffff;
+    stroke-width: 5px;
+    opacity: 0.8;
+    /* Brilho expandido que mistura com o roxo */
+    filter: drop-shadow(0 0 10px #00ffff) drop-shadow(0 0 20px #9d00ff);
+}
+
+/* Camada Magenta: O "Filamento" interno */
+.magenta-core {
+    stroke: #ff00ff;
+    stroke-width: 2.5px;
+    opacity: 0.8;
+    /* Brilho focado para dar nitidez */
+    filter: drop-shadow(0 0 4px #ff00ff);
+
+    transform: scale(0.97);
+    /* Reduz o tamanho para ficar por dentro */
+    transform-origin: center;
+    /* Garante que ela diminua em direção ao centro */
+}
+
+.hexagono-wrapper:hover .aqua-base {
+    stroke-width: 7px;
+    stroke: rgb(87, 242, 242);
+    opacity: 0.8;
+    filter: drop-shadow(0 0 15px #00ffffe5) drop-shadow(0 0 30px #9d00ff);
+}
+
+.hexagono-wrapper:hover .magenta-core {
+    stroke-width: 4px;
+    stroke: #ff54fff1;
+    /* O núcleo fica branco no hover, como se estivesse superaquecido */
+    filter: drop-shadow(0 0 8px #ff00ff);
+}
+
+.aqua-text {
+    fill: #00ffff;
+    font-size: 0.8em;
+    /* Aumentei um pouco para preencher melhor */
+    z-index: 2;
+    font-weight: bold;
+    font-family: "JetBrain Mono", monospace;
+
+
+    filter: drop-shadow(0 0 5px #00ffff);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+    filter: drop-shadow(0 0 8px #00ffff);
+
+    /* Alinhamento exclusivo para SVG */
+    text-anchor: middle;
+    /* Centraliza horizontalmente */
+    dominant-baseline: middle;
+    /* Centraliza verticalmente (mais compatível que alignment-baseline) */
+    pointer-events: none;
+    /* Importante: para o mouse "atravessar" o texto e ativar o hover do hexágono */
+}
+
+/* Container de conteúdo dentro do hexágono */
+.hex-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none; /* Deixa o hover passar para o SVG */
+    z-index: 10;
+    display: flex;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    color: white;
+    font-family: 'JetBrain Mono', monospace;
+}
+
+
+/* Estilo do Ícone (Font Awesome) */
+.hex-content i {
+    margin-bottom: 10px;
+    font-size: 2.4rem;
+    color: #00ffff;
+    filter: drop-shadow(0 0 8px #00ffff);
+    margin-bottom: 5px;
+    transition: all 0.4s ease;
+    
+}
+
+.hex-content > svg{
+    width: 50px;
+    height: 50px;
+    margin-bottom: 10px;
+    color: #00ffff;
+    filter: drop-shadow(0 0 8px #00ffff);
+}
+
+/* Estilo do Texto */
+.hex-content span {
+    font-size: 0.75rem;
+    color: #00ffff;
+    font-family: "JetBrain Mono", monospace;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    filter: drop-shadow(0 0 5px #00ffff);
+    margin-top: 5px;
+}
+
+
+
+/* Sincronização do hover */
+.hexagono-wrapper:hover .hex-content i,
+.hexagono-wrapper:hover .hex-content span {
+    color: #ffffff;
+    filter: drop-shadow(0 0 12px #ff00ff);
+}
+
+
+
+
+/* PROJETOS  */
+
+
+#projects {
+    padding: 80px 20px;
+    position: relative;
+    width: 100%;
+min-height: 100vh; /* Garante que ela ocupe pelo menos a tela cheia */
+    padding: 60px 0px 0px 0px;
+    z-index: 1; /* Garante que a seção fique na camada certa */
+    
+}
+
+#projects::before {
+    content: "";
+    display: block;
+    position: -webkit-sticky; /* Suporte para navegadores Safari antigos */
+    position: sticky;
+    top: 0; /* Onde ela vai parar ao rolar a tela (no topo do navegador) */
+    z-index: 10; /* Garante que ela fique por cima das imagens/cards dos projetos */
+    
+    width: 100%;
+    /* Estilo da borda pontilhada (dotted) na cor Magenta */
+    border-top: 2px dashed #9d00ff; /* #FF00FF é o código hexadecimal do Magenta */
+    
+    /* Opcional: adiciona uma cor de fundo sutil se quiser que a linha 
+       não fique invisível passando por cima de textos */
+    background-color: transparent; 
+}
+
+#projects h1 {
+    position: relative; /* Faz o título ficar acima do vídeo */
+    z-index: 2;
+    text-align: center;
+    color: white;
+    font-size: 3em;
+    margin: 0 0 30px 0;
+    padding-top: 20px;
+    font-family: "Futura", Arial, Helvetica, sans-serif;
+}
+
+.containerProject {
+position: relative;
+    width: 95%; 
+    max-width: 1100px; 
+    min-height: 350px;
+    background: rgba(10, 15, 30, 0.25) !important; /* Fundo escuro semi-transparente */
+    backdrop-filter: blur(8px); 
+    -webkit-backdrop-filter: blur(8px);
+    
+    border: 1px solid rgba(0, 255, 255, 0.3); 
+    border-radius: 10px; 
+    padding: 50px; 
+    margin: 0 auto;
+    transition: 0.4s ease;
+    overflow: hidden;
+
+    
+}
+
+/* Criamos a borda como um elemento absoluto */
+.containerProject::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: 2px solid transparent;
+    background: linear-gradient(90deg, #00ffff, #ff00ff) border-box;
+    -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
+    opacity: 0.3;
+}
+
+/* Camada interna para criar o efeito de "linha" fina da borda */
+.containerProject::after {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    /* Espessura da borda (distância do gradiente) */
+    background: #161b2277;
+    /* Mesma cor de fundo do site */
+    border-radius: 8px;
+    z-index: -1;
+}
+
+/* Efeito de hover atualizado */
+.containerProject:hover {
+    transform: scale(1.02);
+    transition: 0.3s ease;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+#alinhamentoContainer {
+    position: relative;
+    z-index: 2; /* Garante que os cards fiquem na frente do vídeo */
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* Espaço maior entre os cards */
+    align-items: center;
+    width: 100%;
+}
+
+.project-content {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+    width: 100%;
+}
+
+/* Conteúdo interno dividido */
+.project-content {
+    position: relative; /* Essencial para o z-index funcionar */
+    z-index: 2; /* Fica acima das linhas de hologram */
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+    width: 100%;
+}
+
+.project-image {
+    position: relative;
+    border: 1px solid #00ffff;
+    overflow: hidden;
+    background: #000;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.7;
+    transition: 0.5s;
+}
+
+/* Detalhes de cantoneiras (Brackets) */
+/* Cantoneiras (As 4 pontas grossas) */
+.corner-detail {
+    position: absolute;
+    width: 30px; /* Tamanho da ponta */
+    height: 30px;
+    border: 4px solid #00ffff; /* Espessura maior para destacar */
+    z-index: 10;
+    filter: drop-shadow(0 0 8px #00ffff); /* Brilho neon nas pontas */
+}
+/* Posicionamento de cada ponta */
+/* Ajustando o arredondamento das pontas específicas */
+.top-left { 
+    top: -2px; left: -2px; 
+    border-right: none; border-bottom: none; 
+    border-top-left-radius: 15px; 
+}
+.top-right { 
+    top: -1.5px; right: -1.5px; 
+    border-left: none; border-bottom: none; 
+    border-top-right-radius: 15px; 
+}
+.bottom-left { 
+    bottom: -2px; left: -2px; 
+    border-right: none; border-top: none; 
+    border-bottom-left-radius: 15px; 
+}
+.bottom-right { 
+    bottom: -2px; right: -1.5px; 
+    border-left: none; border-top: none; 
+    border-bottom-right-radius: 15px; 
+}
+
+
+/* Efeito Holográfico de TV Antiga */
+.hologram-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Linhas mais visíveis: alternando entre transparente e um azul ciano muito sutil */
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0) 0px,
+        rgba(0, 0, 0, 0) 1px,
+        rgba(0, 255, 255, 0.08) 2px, 
+        rgba(0, 0, 0, 0) 3px
+    );
+    pointer-events: none;
+    z-index: 2; /* Garante que fique acima do fundo do container */
+    animation: tv-flicker 0.15s infinite; /* Aumentei a velocidade do flicker */
+}
+
+/* Animação de interferência leve */
+@keyframes tv-flicker {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+/* Ajuste no botão para combinar com o pop-up */
+.btn-visitmagenta {
+    background: transparent;
+    border: 2px solid #ff00ff;
+    color: #fff;
+    padding: 10px 20px;
+    font-family: 'JetBrain Mono', monospace;
+    cursor: pointer;
+    box-shadow: inset 0 0 5px #ff00ff;
+    transition: 0.3s;
+    text-transform: uppercase;
+    border-radius: 3px;
+}
+
+.btn-visitmagenta a{
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-visitaqua {
+    background: transparent;
+    border: 2px solid aqua;
+    color: #fff;
+    padding: 10px 20px;
+    font-family: 'JetBrain Mono', monospace;
+    cursor: pointer;
+    box-shadow: inset 0 0 5px aqua;
+    transition: 0.3s;
+    text-transform: uppercase;
+    border-radius: 3px;
+}
+
+.btn-visitaqua a{
+    color: #fff;
+    text-decoration: none;
+}
+
+
+
+.btn-visitmagenta:hover {
+    background: #ff00ff;
+    box-shadow: 0 0 20px #ff00ff;
+    color: #000;
+}
+
+.btn-visitaqua:hover {
+    background: aqua;
+    box-shadow: 0 0 20px aqua;
+    color: #000;
+}
+
+
+/* Efeito de Scanline animado na imagem */
+.scanline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: rgba(0, 255, 255, 0.5);
+    box-shadow: 0 0 10px #00ffff;
+    animation: scanning 3s linear infinite;
+}
+
+@keyframes scanning {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+.project-info p.tech-used-title {
+    color: white !important; /* O !important garante que nenhuma outra regra mude a cor */
+    margin-top: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+    font-family: 'JetBrain Mono', monospace;
+    text-shadow: 0px 0px 8px #fd90fd;
+}
+
+.project-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px; /* Distanciamento vertical entre os elementos */
+    background: transparent !important; /* Deixa transparente para herdar o fundo do containerProject */
+    padding: 20px;
+}
+
+.project-info a{
+    text-decoration: none;
+    text-align: center;
+}
+
+.project-info h3 {
+font-family: "JetBrain Mono", monospace;
+    color: #fff;
+    font-size: 2.2em;
+    text-shadow: 0 0 10px #00ffff;
+    margin: 0; /* Remove margens padrão para controlar pelo gap */
+}
+
+.project-info p {
+    font-family: "Montserrat", sans-serif; /* Fonte comum e limpa */
+    color: #ffffff; /* Texto branco */
+    line-height: 1.6; /* Melhora a leitura */
+    font-size: 1.1em;
+    margin: 0;
+}
+
+.status-code {
+    color: #00ffff;
+    font-family: 'Consolas Mono', monospace;
+    font-size: 0.8em;
+    letter-spacing: 2px;
+}
+
+
+
+
+
+
+
+#contact {
+    background-color: #0d1117;
+    /* Fundo escuro */
+    padding: 50px 0;
+    width: 100%;
+    min-height: 80vh;
+    /* Altura mínima para visualização */
+}
+
+/* alignEffect: Contêiner principal que coloca as duas colunas lado a lado */
+.alignEffect {
+    /* 1. Alinha as colunas lado a lado (curriculoCon e formContatos) */
+    display: flex;
+    /* 2. Cria espaçamento entre as colunas */
+    gap: 40px;
+    /* 3. Centraliza o bloco inteiro horizontalmente */
+    justify-content: center;
+    /* 4. Permite que o contêiner interno tenha um tamanho definido */
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Título de tecnologias em Magenta Claro */
+/* Título "Tecnologias usadas" em Magenta Claro */
+.tech-used-title {
+    color: #ff77ff; 
+    margin-top: 20px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+/* Estilização das Tags (Spans) */
+.project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.project-tags span {
+    color: #ff77ff; /* Cor da letra e do ícone em Magenta Claro */
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.85em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 119, 255, 0.05); /* Fundo magenta bem transparente */
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 119, 255, 0.2); /* Borda magenta sutil */
+    transition: 0.3s;
+}
+
+/* Efeito ao passar o mouse nas tags */
+.project-tags span:hover {
+    background: rgba(255, 119, 255, 0.15);
+    box-shadow: 0 0 10px rgba(255, 119, 255, 0.3);
+}
+
+/* Ajuste fixo para as imagens (Sem distorção) */
+.project-image {
+    width: 100%;
+    height: 320px; /* Altura fixa padrão */
+    overflow: hidden;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    background: #000;
+}
+
+.project-image img {
+    width: 100%;
+    height: 100%;
+    /* O object-fit: cover garante que a imagem preencha o espaço sem esticar */
+    object-fit: cover; 
+    /* O object-position: top center garante que o topo do seu site apareça primeiro */
+    object-position: top center; 
+    opacity: 0.8;
+    transition: 0.5s ease;
+}
+
+.project-image:hover img {
+    opacity: 1;
+    transform: scale(1.03); /* Zoom leve e elegante */
+}
+
+/* ------------------ COLUNA ESQUERDA (CURRÍCULO) ------------------ */
+
+.curriculoCon {
+    /* Largura e altura aproximadas da imagem de referência */
+    width: 580px;
+    height: 800px;
+
+    /* Layout interno da coluna (elementos empilhados) */
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    /* Estilo de borda neon da referência */
+    border: 3px solid #00ffff;
+    box-shadow: 0 0 15px #00ffff;
+    padding: 20px;
+    background-color: #161b22;
+    border-radius: 8px;
+}
+
+.curriculoImg {
+    display: flex;
+    justify-content: center;
+    /* Div da imagem de monitor/celular */
+    height: 250px;
+    /* Coloque a imagem de fundo aqui: */
+    /* background-image: url('caminho-para-sua-imagem'); */
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    /* Apenas para visualização */
+}
+
+.contactLinks,
+.bannerC {
+    color: #00ffff;
+    /* Texto azul neon */
+    font-family: monospace;
+    padding: 10px;
+}
+
+.contactLinks {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Reduzi levemente de 25px para 20px para caber perfeitamente com 4 itens */
+    margin: 20px 0;
+}
+
+.bannerC {
+    height: 200px;
+    border-top: 2px solid gray;
+    /* Borda cor de destaque */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    text-align: center;
+}
+
+/* Alinhamento da linha (Círculo + Link) */
+.githubC, .linkedinC {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre o círculo e o texto */
+}
+
+/* Estilização Geral dos Círculos dos Ícones (TAMANHO DIMINUÍDO) */
+.circulo-icone {
+width: 36px;  
+    height: 36px; 
+    min-width: 36px; /* Garante que a largura nunca diminua */
+    min-height: 36px; /* Garante que a altura nunca diminua */
+    flex-shrink: 0; /* Impede que o flexbox esmague o círculo */
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem; 
+    color: #ffffff;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+/* Cor Oficial do GitHub */
+.circulo-github {
+    background: #24292e;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Cor Oficial do LinkedIn */
+.circulo-linkedin {
+    background: #0077b5;
+    border: 1px solid rgba(0, 119, 181, 0.4);
+}
+/* Estilização dos Links de Texto */
+.link-contato {
+    font-family: 'JetBrain Mono', monospace;
+    font-size: 1rem;
+    color: #e0e0e0;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.githubC, .linkedinC, .whatsappC, .emailC {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+}
+
+/* Container que junta o email e as opções */
+.email-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px; /* Espaço entre o e-mail e as opções de baixo */
+    margin-bottom: 15px; /* Espaço para a próxima rede social abaixo */
+}
+
+/* A linha principal do e-mail */
+.email-main {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espaço entre o círculo do ícone e o texto do e-mail */
+}
+
+/* O bloco de opções recuado */
+.email-options {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    /* 
+       IMPORTANTE: Ajuste esse padding-left para o tamanho do seu círculo + o gap.
+       Isso faz as opções começarem exatamente abaixo do início do texto do seu e-mail.
+    */
+    padding-left: 55px; 
+}
+
+/* A frase explicativa (pequena e discreta) */
+.options-label {
+    font-size: 0.75rem;
+    color: #777; /* Um cinza mais claro para não brigar com o e-mail principal */
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Container dos botões menores */
+.webmail-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap; /* Se a tela for pequena (celular), os botões quebram a linha organizadamente */
+}
+
+/* Estilo padrão dos botões de Webmail (estilo "Chips") */
+.btn-webmail {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    border-radius: 15px;
+    border: 1px solid #e0e0e0;
+    color: #555;
+    background-color: #fafafa;
+    transition: all 0.2s ease-in-out;
+}
+
+/* Efeito de levante ao passar o mouse */
+.btn-webmail:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+/* Cores personalizadas no Hover para cada marca (opcional, mas fica lindo) */
+.btn-webmail.gmail:hover {
+    border-color: #ea4335;
+    color: #ea4335;
+    background-color: #fff5f5;
+}
+
+.btn-webmail.outlook:hover {
+    border-color: #0078d4;
+    color: #0078d4;
+    background-color: #f3f9fe;
+}
+
+.btn-webmail.yahoo:hover {
+    border-color: #6001d2;
+    color: #6001d2;
+    background-color: #f8f2ff;
+}
+
+/* EFFECT HOVER (Interações ao passar o mouse) */
+
+/* Hover no Bloco do GitHub */
+.githubC:hover .circulo-github {
+    background: #ffffff;
+    color: #24292e;
+    box-shadow: 0 0 15px rgba(255, 119, 255, 0.6); /* Brilho magenta sutil no círculo */
+    transform: scale(1.1);
+}
+
+/* TEXTO DO GITHUB EM MAGENTA NO HOVER */
+.githubC:hover .link-contato {
+    color: #ff77ff; /* Magenta / Rosa Cyberpunk */
+    text-shadow: 0 0 8px rgba(255, 119, 255, 0.6);
+    padding-left: 5px;
+}
+
+/* Hover no Bloco do LinkedIn */
+.linkedinC:hover .circulo-linkedin {
+    background: #ffffff;
+    color: #0077b5;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.6); /* Brilho aqua sutil no círculo */
+    transform: scale(1.1);
+}
+
+/* TEXTO DO LINKEDIN EM AQUA NO HOVER */
+.linkedinC:hover .link-contato {
+    color: #00ffff; /* Aqua / Ciano Neon */
+    text-shadow: 0 0 8px rgba(0, 255, 255, 0.6);
+    padding-left: 5px;
+}
+
+.circulo-whatsapp {
+    background: #25D366;
+    border: 1px solid rgba(37, 211, 102, 0.4);
+}
+
+/* Cor do Email (Vermelho Google para combinar com o layout) */
+.circulo-email {
+    background: #EA4335;
+    border: 1px solid rgba(234, 67, 53, 0.4);
+}
+
+/* Hover do WhatsApp */
+.whatsappC:hover .circulo-whatsapp {
+    background: #ffffff;
+    color: #25D366;
+    box-shadow: 0 0 15px rgba(37, 211, 102, 0.6); 
+    transform: scale(1.1);
+}
+.whatsappC:hover .link-contato {
+    color: #25D366; 
+    text-shadow: 0 0 8px rgba(37, 211, 102, 0.6);
+    padding-left: 5px;
+}
+
+/* Hover do Email */
+.email-main:hover .circulo-email {
+    background: #ffffff;
+    color: #EA4335;
+    box-shadow: 0 0 15px rgba(234, 67, 53, 0.6); 
+    transform: scale(1.1);
+}
+.email-main:hover .link-contato {
+    color: #EA4335; 
+    text-shadow: 0 0 8px rgba(234, 67, 53, 0.6);
+    padding-left: 5px;
+}
+
+/* ------------------ BANNER C - STATUS HUD ------------------ */
+
+.bannerC {
+    position: relative;
+    width: 100%;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 10px 20px;
+    margin-top: auto; /* Garante que é empurrado para o fundo do container pai se aplicável */
+}
+
+
+
+
+
+
+
+/* Formatação do texto idêntica ao print */
+.texto-banner-c {
+    font-family: 'JetBrain Mono', 'Consolas Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: #ffffff;
+    letter-spacing: 2px;
+    white-space: nowrap; /* Impede o texto de quebrar em duas linhas */
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+/* Container do Gráfico */
+.ondas-pulse-svg {
+    width: 260px;
+    height: 95px;
+    display: block;
+    margin: 0 auto;
+    align-self: center;
+}
+
+/* Propriedades comuns a todas as linhas do SVG */
+.reta-lateral, .onda-som {
+    fill: none;
+    stroke: #ff77ff;       /* Cor MAGENTA vibrante */
+    stroke-width: 2px;     /* Linha cirúrgica de 2px */
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 8px rgba(255, 119, 255, 0.8));
+}
+
+/* Estilo específico das Ondas Centrais */
+.onda-som {
+    /* Define o centro vertical exato para que a distorção ocorra em relação à linha do meio */
+    transform-origin: center; 
+}
+
+/* ANIMAÇÃO ULTRA RÁPIDA (0.3s) E INSTÁVEL BASEADA NO GIF */
+
+.som-pico-1 {
+    animation: modulaOnda1 0.3s linear infinite alternate;
+}
+
+.som-pico-2 {
+    animation: modulaOnda2 0.25s ease-in-out infinite alternate; /* Ritmo levemente diferente para gerar instabilidade */
+}
+
+.som-pico-3 {
+    animation: modulaOnda3 0.3s linear infinite alternate;
+}
+
+/* KEYFRAMES - Criando variações drásticas e assimétricas de volume/escala vertical */
+
+@keyframes modulaOnda1 {
+    0% {
+        transform: scaleY(0.3) scaleX(0.95);
+    }
+    50% {
+        transform: scaleY(1.2) scaleX(1);
+    }
+    100% {
+        transform: scaleY(0.6) scaleX(1.05);
+    }
+}
+
+@keyframes modulaOnda2 {
+    0% {
+        transform: scaleY(1.4) scaleX(1.05);
+    }
+    33% {
+        transform: scaleY(0.1) scaleX(0.95); /* Quase achata, simulando quebra de frequência */
+    }
+    66% {
+        transform: scaleY(1.1) scaleX(1);
+    }
+    100% {
+        transform: scaleY(0.4) scaleX(0.98);
+    }
+}
+
+@keyframes modulaOnda3 {
+    0% {
+        transform: scaleY(0.5) scaleX(1);
+    }
+    50% {
+        transform: scaleY(0.2) scaleX(0.95);
+    }
+    100% {
+        transform: scaleY(1.3) scaleX(1.05);
+    }
+}
+/* ------------------ COLUNA DIREITA (FORMULÁRIO) ------------------ */
+
+.formContatos {
+    /* Largura e altura aproximadas da imagem de referência */
+    width: 700px;
+    height: 800px;
+
+    /* Estilo de borda neon da referência */
+    border: 3px solid #ff00ff;
+    /* Cor magenta/roxo para o formulário */
+    box-shadow: 0 0 15px #ff00ff;
+    padding: 50px 80px 30px 80px;
+    background-color: #161b22;
+    border-radius: 8px;
+}
+
+.formContatos form {
+    height: 95%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Empurra o botão 'ENVIAR' para baixo */
+    ;
+}
+
+#computadorID{
+    width: 100%;
+    height: 250px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.formC {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    /* Espaço entre os campos */
+}
+
+.formC label {
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.formContatos h1 {
+    font-family: "Futura", Arial, Helvetica, sans-serif;
+    color: wheat;
+    text-align: center;
+    font-size: 2.5em;
+}
+
+.formC input[type="text"],
+.formC input[type="email"],
+.formC textarea {
+    background-color: #24292e;
+    /* Fundo dos campos escuro */
+    border: 2px solid #ff00ff;
+    /* Cor magenta/roxo para o formulário */
+    box-shadow: 0 0 15px #ff00ff;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    width: 100%;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+}
+
+.form-contato-hud {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campo-grupo label {
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+/* Inputs de Texto e E-mail */
+.campo-grupo input, 
+.campo-grupo textarea {
+    width: 100%;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    padding: 12px;
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.campo-grupo input:focus, 
+.campo-grupo textarea:focus {
+    outline: none;
+    border-color: #ff77ff;
+    box-shadow: 0 0 10px rgba(255, 119, 255, 0.2);
+}
+
+/* Limitador do Textarea com Rolagem Automática */
+.campo-grupo textarea {
+    height: 100px;
+    resize: none; /* Bloqueia o redimensionamento para não quebrar o layout */
+    overflow-y: auto; /* Cria a barra de rolagem caso o texto passe do limite */
+}
+
+/* Customização da barra de rolagem do textarea */
+.campo-grupo textarea::-webkit-scrollbar {
+    width: 6px;
+}
+.campo-grupo textarea::-webkit-scrollbar-thumb {
+    background: #ff77ff;
+    border-radius: 3px;
+}
+
+/* Campo de Anexo (Mesma largura dos inputs) */
+.campo-grupo-anexo {
+    width: 100%;
+}
+
+.campo-grupo-anexo input[type="file"] {
+    display: none; /* Esconde o botão original feio do navegador */
+}
+
+.label-anexo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    background: rgba(255, 119, 255, 0.03);
+    border: 1px dashed rgba(255, 119, 255, 0.3);
+    border-radius: 4px;
+    color: #ff77ff;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+
+.label-anexo:hover {
+    background: rgba(255, 119, 255, 0.1);
+    border-color: #ff77ff;
+}
+
+/* Mensagem de Feedback */
+.feedback-sucesso {
+    display: none;
+    margin-top: 15px;
+    padding: 12px;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid #22c55e;
+    color: #22c55e;
+    text-align: center;
+    font-size: 0.8rem;
+    font-family: 'JetBrains Mono', monospace;
+    border-radius: 4px;
+}
+
+
+.formContatos textarea {
+    resize: vertical;
+    /* Permite redimensionar verticalmente */
+    height: 200px;
+}
+
+
+/* Botão Enviar */
+.btnEnviar {
+    width: 100%;
+    height: 50px;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #fff;
+    background: #161b22;
+    /* Fundo sólido para tapar o aqua que está atrás */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+    /* --- CAMADAS CORRIGIDAS --- */
+    position: relative;
+    /* Mudamos para z-index positivo baixo e transform-style */
+    z-index: 1;
+    transform-style: preserve-3d;
+
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    /* Transição suave apenas para o corpo */
+    margin-top: 20px;
+    display: block;
+}
+
+
+
+.btnEnviar::after,
+.btnEnviar::before {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: -3px;
+    right: -3px;
+    bottom: -3px;
+
+    /* Gradiente ajustado com paradas nítidas para evitar a mistura de cores */
+    background-image: conic-gradient(from var(--angle),
+            transparent 0%,
+            #ff00ff 5%,
+            /* Magenta inicia */
+            #ff00ff 15%,
+            /* Magenta termina */
+            transparent 20%,
+            transparent 50%,
+            #00ffff 55%,
+            /* Aqua inicia */
+            #00ffff 65%,
+            /* Aqua termina */
+            transparent 70%,
+            transparent 100%);
+
+    border-radius: 8px;
+    transform: translateZ(-1px);
+    z-index: -1;
+    pointer-events: none;
+    animation: 3s spin linear infinite;
+    /* Aumentei um pouco a velocidade */
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+@keyframes spin {
+    from {
+        --angle: 0deg;
+    }
+
+    to {
+        --angle: 360deg;
+    }
+}
+
+.btnEnviar::before {
+    /* Add brilho na borda */
+    filter: blur(1.5rem);
+    opacity: 1;
+}
+
+
+/* Animação do Gradiente */
+@keyframes animaNeon {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+
+.btnEnviar:hover {
+    border-color: #00ffff;
+    transform: scale(1.02);
+    background-color: transparent;
+}
+
+
+.btnEnviar:hover::after {
+    opacity: 0.5;
+    filter: blur(15px);
+
+
+    background: linear-gradient(90deg, #ff00ffe7, #00ffffe1, #ff00ffdf);
+    background-size: 200%;
+    animation: animaNeon 3s linear infinite;
+}
+
+.btnEnviar:hover::before {
+    filter: blur(2rem);
+    /* Aumenta o brilho (glow) ao redor no hover */
+    opacity: 1;
+}
+
+
+/* FOOTER */
+
+footer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 2px dashed #00ffff; /* Linha tracejada tecnológica aqua */
+    padding-bottom: 0px !important; /* Força o conteúdo interno a encostar na borda de baixo */
+    margin-bottom: 0px;
+    font-family: "Consolas Mono", monospace;
+    position: relative;
+    box-shadow: inset 0 10px 20px rgba(0, 255, 255, 0.05);
+    overflow: hidden;   /* CORTA A REBARBA QUE SOBRA POR BAIXO */
+    padding-bottom: 20px;
+    min-height: 350px;     /* Defina uma altura mínima para o footer ter espaço vertical */
+    padding: 20px;
+}
+
+
+
+/* alinhaFooter: Contêiner da linha superior (f1 e f2) */
+#alinhaFooter {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+    padding: 30px 50px;
+    z-index: 2; /* Garante que os textos e o card fiquem na frente do vídeo */
+}
+
+/* ------------------ f1: Direitos Autorais ------------------ */
+
+#f1 {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    background: rgba(13, 5, 43, 0.75); /* Tom escuro semi-transparente */
+    border: 1px solid rgba(0, 255, 255, 0.3); /* Borda Aqua sutil combinando com o tema */
+    padding: 15px 25px;
+    border-radius: 8px;
+    backdrop-filter: blur(5px); /* Desfoque de vidro sutil atrás do texto */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+#f1 .copyright {
+    color: #8b949e;
+    font-size: 0.9em;
+    letter-spacing: 0.5px;
+}
+
+#f1 .tech-uiux {
+    color: #ff00ff; /* Magenta Neon */
+    font-size: 0.75em;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    font-weight: bold;
+    text-shadow: 0 0 8px rgba(255, 0, 255, 0.4);
+}
+
+#f1 p {
+    margin: 3px 0;
+}
+
+/* ------------------ f2: Feito com React e Redes Sociais ------------------ */
+
+#f2 {
+    position: relative;
+    width: 100%;
+    min-height: 400px; /* Aumentado para dar espaço aos ícones espalhados */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    overflow: visible;
+    padding: 15px 25px;
+    background: radial-gradient(circle, rgba(13, 5, 43, 0.358) 0%, rgba(13, 5, 43, 0.094) 50%, rgba(13, 5, 43, 0) 70%);
+    border-radius: 50%;
+}
+
+#f2 .feito-com {
+    /* Estilo do balão de React */
+    background: #161b22;
+    color: #00ffff;
+    border: 3px solid #ff00ff;
+    /* Borda roxa/magenta */
+    box-shadow: 0 0 15px #ff00ff, 0 0 5px #00ffff;
+    border-radius: 40px;
+    padding: 15px 40px;
+    font-size: 1.2em;
+    font-weight: bold;
+    white-space: nowrap;
+    color: white;
+    font-family: consolas, Arial, Helvetica, sans-serif;
+    position: relative;
+    z-index: 1;
+    /* Ajuste para garantir que o conteúdo fique acima da borda */
+    display: inline-block;
+    transform-style: preserve-3d;
+    border: none; /* Removemos a borda fixa anterior */
+    box-shadow: none; /* Removemos a sombra fixa para usar o neon animado */
+}
+
+/* Borda animada para o Feito com */
+#f2 .feito-com::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background-image: conic-gradient(from var(--angle), 
+        #ff00ff, /* Magenta */
+        #9400D3, /* Violeta (cor entre as duas) */
+        #00ffff, /* Aqua */
+        #9400D3, 
+        #ff00ff);
+    border-radius: 40px;
+    z-index: -1;
+    pointer-events: none;
+    animation: 3s spin linear infinite;
+    transform: translateZ(-1px);
+}
+
+/* Brilho neon para o Feito com */
+#f2 .feito-com::before {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    background-image: conic-gradient(from var(--angle), 
+        #ff00ff, 
+        #9400D3, 
+        #00ffff, 
+        #9400D3, 
+        #ff00ff);
+    border-radius: 40px;
+    z-index: -1;
+    pointer-events: none;
+    animation: 3s spin linear infinite;
+    filter: blur(1.2rem);
+    opacity: 0.7;
+    transform: translateZ(-1px);
+}
+
+.feito-com {
+    font-family: "JetBrain Mono", monospace;
+    position: relative;
+    z-index: 2;
+    font-size: 1.1rem;
+    color: #fff;
+    /* Mantendo ou reforçando seu efeito de animação Neon */
+    text-shadow: 0 0 2px #ff00ff, 0 0 8px #b700ff, 0 0 10px #00aeff;
+    animation: neonPulse 1.5s ease-in-out infinite alternate;
+}
+
+/* Caso queira uma animação de pulsação suave no neon */
+@keyframes neonPulse {
+    from {
+        text-shadow: 0 0 1px #ff00ff, 0 0 8px #b700ff, 0 0 10px #ff00ff;
+    }
+    to {
+        text-shadow: 0 0 5px #00aeff, 0 0 10px #b700ff, 0 0 12px #00aeff;
+    }
+}
+
+/* Configuração do SVG de fundo */
+#svg-conexoes {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Posicionamento absoluto dos ícones como você pediu */
+.social-icons {
+position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block; /* Importante: remove o flex que junta as bolinhas */
+}
+.social-icons .icon {
+position: absolute;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid #00ffff;
+    background-color: #151B42; /* Fundo escuro igual ao print */
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+    z-index: 5;
+    color: white;
+}
+
+.icon:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px #00ffff;
+}
+
+
+
+
+/* --- f3: Mensagem Final / Terminal State --- */
+#f3 {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    position: relative !important;
+    z-index: 2;
+    padding: 15px 0px;
+    top: 87% !important;
+    bottom: auto !important;
+     left: 50%;
+    right: 0%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    width: 100vw;
+    box-sizing: border-box !important;
+    
+
+   
+    /* Zera margens normais que possam estar interferindo */
+    margin-top: 0; 
+    margin-bottom: 0;
+    /* Degradê do transparente para o preto mais claro e suave no fim da página */
+    background: linear-gradient(to bottom, rgba(21, 27, 66, 0.4) 0%, rgba(10, 10, 15, 0.85) 100%);
+    backdrop-filter: blur(4px);
+    border-top: 1px solid rgba(255, 119, 255, 0.15); /* Linha magenta cirúrgica no topo do degrade */
+}
+
+#f3 p {
+    color: #00ffff; /* Texto em Aqua Neon */
+    font-size: 0.8em;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.8;
+    position: relative;
+    display: inline-block;
+   
+    
+}
+
+/* Simulação de um cursor piscante de terminal no final da frase */
+#f3 p::after {
+    content: "█";
+    margin-left: 5px;
+    color: #00ffff;
+    animation: piscaCursor 1s infinite;
+}
+
+@keyframes piscaCursor {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+}
+
+/* --- Linha de Direitos Autorais Isolada (Ajuste de acabamento) --- */
+.direitos-autorais {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+    background-color: #090d13;
+    font-size: 0.7em;
+    color: #6b6c6c;
+    letter-spacing: 2px;
+    border-top: 1px solid rgba(255, 0, 255, 0.05);
+}
+
+
+#certificados {
+    border: 1px solid #ff00ff;
+    box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+}
+
+#certificados:hover {
+    background: #ff00ff;
+    box-shadow: 0 0 20px #ff00ff;
+    color: #000;
+}
+
+
+#CV {
+    border: 1px solid #00ff00da;
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.694);
+}
+
+#CV:hover{
+    background-color: #24ff24e7;            /* Verde Neon Puro */
+    box-shadow: 0 0 20px rgba(0, 255, 0, 0.872); /* Efeito Glow de tela */
+    text-shadow: 0 0 5px rgba(255, 255, 255, 0.847); /* Brilho no texto */
+}
+
+
+/* FORMATAÇÃO PDF */
+
+  /* =========================================
+   VISUALIZADOR DE PDF CYBERPUNK (JavScript Resizing Version)
+   ========================================= */
+
+.pdf-viewer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 100px 20px 60px 20px;
+    min-height: 100vh;
+    background-color: #151B42;
+}
+
+.pdf-title {
+    color: #b3ffff; 
+    font-family: "Futura", "Bebas Neue", sans-serif; 
+    font-size: 3em;
+    margin-bottom: 20px;
+    letter-spacing: 3px;
+    text-shadow: 0 0 10px rgba(179, 255, 255, 0.5), 0 0 20px rgba(179, 255, 255, 0.3);
+    text-align: center;
+}
+
+.cyber-frame-container {
+    position: relative; /* OBRIGATÓRIO para posicionar o puxador ::after */
+    width: 100%;
+    max-width: 900px;
+    /* Inicia com o tamanho total do PDF para NÃO exibir o scroll por padrão */
+    height: 1150px; 
+    max-height: 1150px; 
+    min-height: 300px; 
+    padding: 4px; 
+    background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+    background-size: 200% 200%;
+    animation: neonGradient 5s ease infinite;
+    
+    /* JavaScript Resizing required removing native CSS resize properties */
+    /* resize: vertical; REMOVIDO */
+    overflow-y: auto; /* Mostra o scroll aqua APENAS se a janela for diminuída via JS */
+    overflow-x: hidden; /* Remove o scroll horizontal indesejado */
+    
+    clip-path: polygon(
+        0 20px, 20px 0, 100% 0, 100% calc(100% - 20px), 
+        calc(100% - 20px) 100%, 0 100%
+    );
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5), inset 0 0 20px rgba(0, 255, 255, 0.5);
+    margin-bottom: 40px;
+}
+
+/* JavaScript Resizing required removing native CSS resizer styles */
+/* .cyber-frame-container::-webkit-resizer { REMOVIDO } */
+
+/* --- CRIAÇÃO DA BARRA ARRASTÁVEL NA BORDA INFERIOR (JS Target) --- */
+.cyber-frame-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 20px; /* Offset para evitar conflito com os chanfros das cantoneiras */
+    right: 20px; /* Offset para evitar conflito com os chanfros das cantoneiras */
+    height: 15px; /* Espessura da área arrastável */
+    background: transparent; /* Invisível por padrão */
+    cursor: ns-resize; /* Cursor de redimensionamento Norte-Sul */
+    z-index: 100; /* Garante que fique acima do iframe e do conteúdo interno */
+    transition: background 0.3s ease;
+}
+
+/* Estilo visual da barra arrastável que aparece no hover do CONTAINER */
+.cyber-frame-container:hover::after {
+    background: rgba(0, 255, 255, 0.1); /* Sutil preenchimento aqua no hover */
+    /* Cria linhas visuais de "puxador" estilo hacker */
+    background-image: linear-gradient(
+        to bottom,
+        rgba(0, 255, 255, 0.5) 1px,
+        transparent 1px,
+        transparent 3px,
+        rgba(0, 255, 255, 0.5) 4px
+    );
+    background-repeat: repeat-x;
+    background-position: center;
+    background-size: 10px 4px;
+}
+/* ------------------------------------------- */
+
+/* --- ESTILIZAÇÃO DA BARRA DE ROLAGEM NEON --- */
+.cyber-frame-container::-webkit-scrollbar {
+    width: 10px;
+}
+
+.cyber-frame-container::-webkit-scrollbar-track {
+    background: rgba(9, 13, 19, 0.9); 
+    border-radius: 10px;
+    margin: 25px 0; /* Afasta dos chanfros da borda superior/inferior */
+}
+
+.cyber-frame-container::-webkit-scrollbar-thumb {
+    background: #00ffff; 
+    border-radius: 10px; 
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.6); 
+}
+
+.cyber-frame-container::-webkit-scrollbar-thumb:hover {
+    background: #b3ffff; 
+}
+/* ------------------------------------------- */
+
+@keyframes neonGradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.cyber-frame-inner {
+    width: 100%;
+    /* Garante que o interior acompanhe a altura do PDF completo */
+    height: max-content; 
+    min-height: 100%;
+    background-color: #090d13; 
+    clip-path: polygon(
+        0 18px, 18px 0, 100% 0, 100% calc(100% - 18px), 
+        calc(100% - 18px) 100%, 0 100%
+    );
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* Alinha o PDF pelo topo */
+    position: relative;
+}
+
+/* IFRAME: Mantém a altura fixa no tamanho máximo para desabilitar o scroll nativo do PDF */
+.pdf-iframe {
+    width: 100%;
+    height: 1150px; 
+    display: block;
+    border: none;
+    background-color: transparent; 
+    overflow: hidden; /* Força o PDF a não rolar internamente */
+}
+
+/* Elementos decorativos (cantoneiras) - Garantir posicionamento absoluto */
+.corner-detail { /* Dummy selector, substitua pelas classes .top-left, etc. do contexto */
+    position: absolute;
+    z-index: 50; /* Acima do inner, abaixo da faixa de arrasto ::after */
+}
+
+.top-left { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 15px; }
+.top-right { top: -1.5px; right: -1.5px; border-left: none; border-bottom: none; border-top-right-radius: 15px; }
+.bottom-left { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 15px; }
+.bottom-right { bottom: -2px; right: -1.5px; border-left: none; border-top: none; border-bottom-right-radius: 15px; }
+
+/* --- BOTÃO DOWNLOAD NO ESTILO CONTAINER DE PROJETOS --- */
+.btn-cyber-download {
+    margin-top: 10px;
+    background: rgba(21, 27, 66, 0.7); /* Fundo de vidro escuro */
+    backdrop-filter: blur(12px); /* Efeito blur de vidro */
+    border: 1px solid rgba(0, 255, 255, 0.2); /* Borda sutil aqua */
+    border-radius: 10px;
+    color: #ffffff;
+    padding: 15px 40px;
+    font-family: "JetBrain Mono", monospace;
+    font-size: 1.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: 0.4s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+.btn-cyber-download:hover {
+    transform: scale(1.02); /* Zoom leve no hover */
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.2); /* Brilho aqua suave */
+    border: 1px solid #00ffff; /* Borda acende no hover */
+}
+
+.btn-cyber-download i {
+    font-size: 1.4em;
+    color: #00ffff; /* Ícone aqua fixo */
+}
+
+
+/* ==========================================================================
+   ESTILIZAÇÃO DA BARRA DE ROLAGEM (SCROLLBAR)
+   ========================================================================== */
+
+/* 1. Suporte para o Firefox (Padrão mais recente do CSS) */
+html {
+    scrollbar-width: auto; /* Pode mudar para 'thin' se quiser ela mais fininha */
+    scrollbar-color: magenta #1d0a2e; /* Cor do scroll (Aqua) | Cor do fundo (Roxo escuro azulado) */
+}
+
+/* 2. Suporte para Chrome, Edge, Safari e Opera (Webkit) */
+::-webkit-scrollbar {
+    width: 12px; /* Largura da barra vertical */
+    height: 12px; /* Altura da barra horizontal (se existir) */
+}
+
+/* O fundo por onde o scroll passa (Track) */
+::-webkit-scrollbar-track {
+    background-color: #1B1233; /* Roxo escuro meio azulado */
+    border-radius: 0px; /* Quadrado */
+}
+
+/* O próprio scroll que você puxa (Thumb) */
+::-webkit-scrollbar-thumb {
+    background-color: magenta; /* Cor Aqua pura, sem efeitos */
+    border-radius: 0px; /* Quadrado, sem arredondamento */
+}
+
+/* Opcional: Um leve escurecimento no aqua quando passar o mouse por cima do scroll */
+::-webkit-scrollbar-thumb:hover {
+    background-color: magenta; 
+    
+}
+
+body.travado {
+    overflow: hidden !important;
+}
+

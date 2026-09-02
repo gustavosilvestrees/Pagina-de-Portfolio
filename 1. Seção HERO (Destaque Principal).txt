@@ -1,0 +1,163 @@
+1. Seção HERO (Destaque Principal)
+Header/Navbar (Fixa no topo):
+
+Logotipo/Nome: <br/>GABRIEL com estilização de código.
+
+Links: "SOBRE", "SKILLS", "PROJECTS", "CONTATO" (como texto simples).
+
+Botão "CONTATO": Fundo transparente, borda em azul claro neon, formato de pílula/arredondado.
+
+Toggle Light/Dark Mode: Ícone de sol/lua.
+
+Botão de CV: Ícone de download/documento.
+
+Conteúdo Principal (Hero):
+
+Avatar 3D: Renderização 3D de um avatar pardo, integrado ao ambiente futurista com um círculo neon ao redor.
+
+Título Principal: "EU SOU GABRIEL, FULL-STACK DEVELOPER" (com a fonte Inter, em cor clara).
+
+Subtítulo Dinâmico: "Crio experiências digitais" (com efeito de máquina de escrever implícito).
+
+Botão CTA: "EXPLORE MY PROJECTS" (com gradiente magenta-azul neon, grande e chamativo).
+
+Frase de Efeito/Slogan: "Transformo problemas em código limpo."
+
+Links Sociais: Ícones de LinkedIn e GitHub (pequenos, discretos, integrados abaixo do CTA).
+
+Elementos de Fundo: Padrões de código abstratos e linhas de grade futuristas com glow sutil em azul e magenta.
+
+2. Seção SOBRE MIM (Minha Jornada)
+Título da Seção: "SOBRE MIM" (alinhado à esquerda, fonte Inter).
+
+Painel Central (Estilo Terminal/Caixa de Diálogo):
+
+Borda: Neon vibrante (magenta e azul claro).
+
+Topo do Painel: <br/>GABRIEL com ícone de lupa (efeito de barra de título de terminal).
+
+Conteúdo de Texto:
+
+Título interno: // INICIANDO_BIO_SISTEMA...
+
+Parágrafos sobre a jornada, paixão e especialização (fonte Inter, legível, alto contraste).
+
+Destaques de texto em negrito ou com cor de destaque neon.
+
+Final: // CONCLUIDO.
+
+Fundo da Caixa de Texto: Predominantemente limpo, com linhas de código/padrões muito sutis e de baixa opacidade que não prejudicam a leitura.
+
+Elemento Gráfico Integrado: Um visual de "onda sonora" abstrata ou gráfico tecnológico no canto direito, com cores neon.
+
+Links Sociais Integrados: Ícones de GitHub e LinkedIn (no canto inferior direito, com glow neon).
+
+Fundo da Seção: Padrões de grade futuristas, com glows sutis.
+
+3. Seção TECH SKILLS (O Arsenal)
+Título da Seção: "TECH SKILLS" (alinhado à esquerda, fonte Inter, com leve inclinação para dinamismo).
+
+Layout Principal: Grade de hexágonos flutuantes com perspectiva dinâmica (diagonal).
+
+Cards de Habilidades (Hexagonais):
+
+Borda: Neon vibrante (magenta e azul claro), com efeito de glow.
+
+Fundo: Transparente o suficiente para mostrar o fundo do site, mas com um blur ou opacidade que garante legibilidade.
+
+Ícone da Tecnologia: Centralizado, grande, com glow neon vibrante na cor da paleta (ex: React em azul, Python em amarelo-laranja, Docker em magenta).
+
+Nome da Tecnologia: Abaixo do ícone, fonte clean (Inter).
+
+Categorias (Acima dos Hexágonos): Pequenas tags de texto indicando "FRONT-END", "BACK-END", "LANGUAGES", "TOOLS", com borda neon e fundo transparente.
+
+Fundo da Seção: Padrões de grade e linhas tecnológicas, com glows sutis, integrando-se à composição hexagonal.
+
+4. Seção PROJETOS (A Prova)
+Título da Seção: "PROJETOS" (alinhado à esquerda, fonte Inter).
+
+Layout Principal: Grade responsiva de cards retangulares/quadrados (idealmente 3 colunas em desktop).
+
+Cards de Projeto:
+
+Borda: Neon vibrante (magenta e azul claro), com efeito de glow e leve profundidade.
+
+Fundo: Preenchido com um tom escuro da paleta (azul marinho profundo), para alto contraste.
+
+Mockup do Projeto: Imagem ou representação visual do projeto (desktop e/ou mobile) no topo do card, com brilhos neon.
+
+Título do Projeto: Centralizado, fonte Inter, cor clara.
+
+Breve Descrição: Texto conciso sobre o projeto, fonte Inter, legível.
+
+Ícones de Tecnologia: Pequenos ícones das tecnologias usadas no rodapé do card, com glow individual.
+
+Botões de Ação:
+
+"Ver Projeto": Botão de pílula preenchido com gradiente neon (magenta-azul claro).
+
+"Estudo de Caso": Botão de pílula com borda neon e fundo transparente.
+
+Card "Novo Projeto em Breve": Um card especial com um ícone de '+' grande e vibrante, e a frase "Novo Projeto em Breve", mantendo a estética dos demais.
+
+Fundo da Seção: Padrões de grade e linhas tecnológicas.
+
+5. Seção CONTATO (A Conexão)
+Título da Seção: "CONTATO" (alinhado à esquerda, fonte Inter).
+
+Painel de Informações de Contato (Esquerda):
+
+Borda: Neon vibrante (magenta e azul claro).
+
+Fundo: Predominantemente limpo, talvez com padrões sutis.
+
+Título: "FALE COMIGO" ou similar.
+
+Links Sociais: Ícones de LinkedIn e Email, com texto descritivo e glow neon.
+
+Disponibilidade: "Aberto a novas oportunidades!" com um elemento gráfico ou ícone de "onda sonora".
+
+Painel de Formulário (Direita):
+
+Borda: Neon vibrante (magenta e azul claro).
+
+Fundo: Predominantemente limpo, talvez com padrões sutis.
+
+Campos de Input: "NOME", "EMAIL", "MENSAGEM" (com bordas neon, glow ao focar, e placeholders com fontes limpas).
+
+Botão "ENVIAR": Grande, com gradiente neon (magenta-azul claro) e efeito de glow.
+
+Ícones Decorativos: Pequenos ícones tecnológicos ou de redes sociais na lateral do formulário para enriquecer o visual.
+
+Fundo da Seção: Padrões de grade e linhas tecnológicas.
+
+6. FOOTER (Arremate Final)
+Estrutura Criativa e Aberta: Sem um painel único, elementos mais "flutuantes" e interligados.
+
+Informações Legais:
+
+"© 2024 Gabriel. Todos os direitos reservados."
+
+"Tecnologia UI/UX"
+
+(Textos em cor clara, fonte Inter, alinhados à esquerda).
+
+Componente "Feito Com":
+
+Um "chip" ou "botão" centralizado e proeminente, com borda neon (magenta-azul).
+
+Conteúdo: "Feito com ❤️ e React - Veja o código" (link para GitHub).
+
+Links de Redes Sociais:
+
+Ícones de LinkedIn, Twitter, Instagram, GitHub.
+
+Conectados ao "chip" central por linhas neon que se estendem, dando uma sensação de "circuito" ou "conexões digitais".
+
+Cada ícone tem seu próprio glow neon.
+
+Mensagem de Engajamento Final:
+
+"Obrigado pela visita! Vamos criar algo incrível juntos." (Centralizado, fonte Inter, cor clara).
+
+Fundo do Footer: Padrões de grade futuristas, com glows sutis que se integram aos elementos acima.
