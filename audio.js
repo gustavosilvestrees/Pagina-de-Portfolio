@@ -1,19 +1,42 @@
 // audio.js - Gerenciador Global de Áudio
+
+/* ==========================================================================
+   2. GERENCIAMENTO GLOBAL DE ÁUDIO E NAVEGAÇÃO
+   ========================================================================== */
+const sndIntro = new Audio("intro/intro music.mp3");
+const sndHug = new Audio("intro/hug activation.mp3");
+const sndDigital = new Audio("intro/digital button.mp3");
+
+sndIntro.loop = true;
+sndIntro.preload = "auto";
+
+// Recupera estados salvos no sessionStorage e localStorage
+const tempoSalvo = parseFloat(localStorage.getItem("portfolio_audio_tempo") || sessionStorage.getItem("audio_time") || "0");
+const estadoSalvo = localStorage.getItem("portfolio_audio_estado");
+const estadoMuted = sessionStorage.getItem("audio_muted") === "true";
+
+if (tempoSalvo && !isNaN(tempoSalvo)) {
+    sndIntro.currentTime = tempoSalvo;
+}
+sndIntro.muted = estadoMuted;
+
+// Salva o tempo de reprodução em tempo real
+sndIntro.addEventListener("timeupdate", () => {
+    sessionStorage.setItem("audio_time", sndIntro.currentTime);
+    localStorage.setItem("portfolio_audio_tempo", sndIntro.currentTime.toString());
+});
+
 document.addEventListener("DOMContentLoaded", () => {
-    // 1. CAMINHO DO SEU ARQUIVO DE ÁUDIO (Ajuste aqui o caminho correto)
+    // Registra que a tela inicial já foi vista na sessão atual se a intro for exibida
+    if (deveExibirLoader()) {
+        sessionStorage.setItem("intro_visualizada", "true");
+    }
+
+    // 1. CAMINHO DO SEU ARQUIVO DE ÁUDIO
     const CAMINHO_AUDIO = "intro/intro music.mp3";
 
-    
-
-    // 2. Criação automática do elemento de áudio
-    let audio = document.getElementById("global-bg-audio");
-    if (!audio) {
-        audio = document.createElement("audio");
-        audio.id = "global-bg-audio";
-        audio.src = CAMINHO_AUDIO;
-        audio.loop = true;
-        document.body.appendChild(audio);
-    }
+    // Usa a instância global do áudio em vez de criar uma segunda tag de áudio no DOM
+    const audio = sndIntro;
 
     const toggleBtn = document.getElementById("audio-toggle");
     const audioIcon = document.getElementById("audio-icon");
@@ -21,22 +44,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Atualiza a aparência do botão
     function atualizarUI(estaTocando) {
-    if (!toggleBtn) return;
-    if (estaTocando) {
-        if (audioIcon) audioIcon.className = "fas fa-volume-up"; // Altera a classe do Font Awesome
-        toggleBtn.classList.add("playing");
-    } else {
-        if (audioIcon) audioIcon.className = "fas fa-volume-mute"; // Altera a classe do Font Awesome
-        toggleBtn.classList.remove("playing");
-    }
-}
-
-    // Recupe o estado salvo no navegador
-    const estadoSalvo = localStorage.getItem("portfolio_audio_estado"); // 'on' ou 'off'
-    const tempoSalvo = parseFloat(localStorage.getItem("portfolio_audio_tempo") || "0");
-
-    if (tempoSalvo && !isNaN(tempoSalvo)) {
-        audio.currentTime = tempoSalvo;
+        if (!toggleBtn) return;
+        if (estaTocando) {
+            if (audioIcon) audioIcon.className = "fas fa-volume-up"; // Altera a classe do Font Awesome
+            toggleBtn.classList.add("playing");
+        } else {
+            if (audioIcon) audioIcon.className = "fas fa-volume-mute"; // Altera a classe do Font Awesome
+            toggleBtn.classList.remove("playing");
+        }
     }
 
     // Toca automaticamente se o usuário já tiver deixado ativado
@@ -68,11 +83,13 @@ document.addEventListener("DOMContentLoaded", () => {
             if (audio.paused) {
                 audio.play().then(() => {
                     localStorage.setItem("portfolio_audio_estado", "on");
+                    sessionStorage.setItem("audio_started", "true");
                     atualizarUI(true);
                 });
             } else {
                 audio.pause();
                 localStorage.setItem("portfolio_audio_estado", "off");
+                sessionStorage.setItem("audio_started", "false");
                 atualizarUI(false);
             }
         });
@@ -82,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setInterval(() => {
         if (!audio.paused) {
             localStorage.setItem("portfolio_audio_tempo", audio.currentTime.toString());
+            sessionStorage.setItem("audio_time", audio.currentTime.toString());
         }
     }, 500);
 
@@ -89,45 +107,33 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("beforeunload", () => {
         if (!audio.paused) {
             localStorage.setItem("portfolio_audio_tempo", audio.currentTime.toString());
+            sessionStorage.setItem("audio_time", audio.currentTime.toString());
         }
     });
 });
 
-/* ==========================================================================
-   2. GERENCIAMENTO GLOBAL DE ÁUDIO E NAVEGAÇÃO
-   ========================================================================== */
-const sndIntro = new Audio("intro/intro music.mp3");
-const sndHug = new Audio("intro/hug activation.mp3");
-const sndDigital = new Audio("intro/digital button.mp3");
-
-sndIntro.loop = true;
-sndIntro.preload = "auto";
-
-// Recupera estados salvos no sessionStorage
-const tempoSalvo = sessionStorage.getItem("audio_time");
-const estadoMuted = sessionStorage.getItem("audio_muted") === "true";
-const audioIniciado = sessionStorage.getItem("audio_started") === "true";
-
-if (tempoSalvo) {
-    sndIntro.currentTime = parseFloat(tempoSalvo);
-}
-sndIntro.muted = estadoMuted;
-
-// Salva o tempo de reprodução em tempo real
-sndIntro.addEventListener("timeupdate", () => {
-    sessionStorage.setItem("audio_time", sndIntro.currentTime);
-});
-
-// Verifica se veio de recarregamento (F5) ou navegação entre páginas
+// Verifica se a intro/loader deve ser exibido
 function deveExibirLoader() {
+    // Se recarregou a página via F5, limpa a flag para exibir a intro novamente
     const navegacao = performance.getEntriesByType("navigation")[0];
-    if (navegacao && navegacao.type === "reload") return true;
+    if (navegacao && navegacao.type === "reload") {
+        sessionStorage.removeItem("intro_visualizada");
+        return true;
+    }
 
+    // Se já passou pela intro nesta mesma sessão de navegação, NÃO exibe novamente
+    const jaViuIntro = sessionStorage.getItem("intro_visualizada") === "true";
+    if (jaViuIntro) {
+        return false;
+    }
+
+    // Se veio de dentro do próprio site (navegação entre páginas)
     const paginaAnterior = document.referrer;
     const mesmoDominio = window.location.origin;
 
     if (paginaAnterior && paginaAnterior.startsWith(mesmoDominio)) {
         return false; // Veio de dentro do site
     }
-    return true; // Acesso direto ou vindo de site externo
+
+    return true; // Acesso inicial/primeira entrada no site
 }
