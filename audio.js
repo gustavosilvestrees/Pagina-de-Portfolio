@@ -1,7 +1,7 @@
 // audio.js - Gerenciador Global de Áudio
 
 /* ==========================================================================
-   2. GERENCIAMENTO GLOBAL DE ÁUDIO E NAVEGAÇÃO
+   GERENCIAMENTO GLOBAL DE ÁUDIO E NAVEGAÇÃO
    ========================================================================== */
 const sndIntro = new Audio("intro/intro music.mp3");
 const sndHug = new Audio("intro/hug activation.mp3");
@@ -25,6 +25,11 @@ sndIntro.addEventListener("timeupdate", () => {
     sessionStorage.setItem("audio_time", sndIntro.currentTime);
     localStorage.setItem("portfolio_audio_tempo", sndIntro.currentTime.toString());
 });
+
+// Execução imediata: Oculta a intro antes da renderização se já foi vista na sessão
+if (!deveExibirLoader()) {
+    document.documentElement.classList.add("no-intro");
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     // Registra que a tela inicial já foi vista na sessão atual se a intro for exibida

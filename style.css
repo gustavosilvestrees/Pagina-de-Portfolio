@@ -3212,3 +3212,11 @@ body.travado {
     overflow: hidden !important;
 }
 
+/* Oculta imediatamente a intro quando a classe no-intro for aplicada */
+html.no-intro #intro-screen,
+html.no-intro .intro-screen,
+html.no-intro #loader {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+}
