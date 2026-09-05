@@ -126,19 +126,35 @@ function deveExibirLoader() {
         return true;
     }
 
-    // Se já passou pela intro nesta mesma sessão de navegação, NÃO exibe novamente
+    // Se já passou pela intro nesta mesma sessão de navegação, NÃO exibe novamente[cite: 1]
     const jaViuIntro = sessionStorage.getItem("intro_visualizada") === "true";
     if (jaViuIntro) {
         return false;
     }
 
-    // Se veio de dentro do próprio site (navegação entre páginas)
+    // Se veio de dentro do próprio site (navegação entre páginas)[cite: 1]
     const paginaAnterior = document.referrer;
     const mesmoDominio = window.location.origin;
 
     if (paginaAnterior && paginaAnterior.startsWith(mesmoDominio)) {
-        return false; // Veio de dentro do site
+        
+        // --- CORREÇÃO VERCEL ---
+        // Verifica se a página anterior tem exatamente o mesmo caminho da página atual.
+        // Se for o caso, foi apenas um redirecionamento de infraestrutura (como HTTP para HTTPS).
+        try {
+            const urlAtual = window.location.pathname;
+            const urlReferrer = new URL(paginaAnterior).pathname;
+            
+            if (urlAtual === urlReferrer) {
+                return true; // É um redirecionamento, portanto, exibe a intro.
+            }
+        } catch (e) {
+            console.error("Erro ao analisar a URL do referrer:", e);
+        }
+        // -----------------------
+
+        return false; // Navegação interna real, não exibe a intro.
     }
 
-    return true; // Acesso inicial/primeira entrada no site
+    return true; // Acesso inicial/primeira entrada no site[cite: 1]
 }
