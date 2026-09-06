@@ -32,10 +32,7 @@ if (!deveExibirLoader()) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    // Registra que a tela inicial já foi vista na sessão atual se a intro for exibida
-    if (deveExibirLoader()) {
-        sessionStorage.setItem("intro_visualizada", "true");
-    }
+
 
     // 1. CAMINHO DO SEU ARQUIVO DE ÁUDIO
     const CAMINHO_AUDIO = "intro/intro music.mp3";

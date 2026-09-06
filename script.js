@@ -80,7 +80,8 @@ document.addEventListener("DOMContentLoaded", () => {
 document.body.classList.add("travado"); // NOVO: Trava o scroll aqui!
         
         // CASO 1: Primeiro Acesso ou F5 (Exibe loader e aguarda clique na tela)
-        const iniciarComClique = () => {
+       const iniciarComClique = () => {
+            sessionStorage.setItem("intro_visualizada", "true"); // <-- ADICIONE ESTA LINHA AQUI
             sessionStorage.setItem("audio_started", "true");
             sessionStorage.setItem("audio_muted", "false");
             sndIntro.muted = false;
